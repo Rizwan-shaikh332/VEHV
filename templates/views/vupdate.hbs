@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Column Form</title>
+    <style>
+        body {
+            background: #161b2e;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .three-column-form {
+            background: linear-gradient(135deg, #03a9f4, #f56ee1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 700px;
+        }
+        .three-column-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 95%;
+            padding: 8px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        .form-group .col {
+            width: 30%;
+        }
+        .three-column-form button {
+            width: 100%;
+            padding: 10px;
+            background: #161b2e;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            /*transition: background 0.3s ease;*/
+            margin-right: 2%;
+        }
+        .three-column-form button:hover {
+            background: rgb(255, 255, 255);
+            color: black;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            backdrop-filter: blur(8px);
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .blur-background {
+            filter: blur(4px);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="three-column-form" id="three-column-form">
+        <h2>Update information</h2>
+       <form id="threeColumnForm" action="/submitveh" method="post">
+            <div class="form-group">
+                <div class="col">
+                    <label for="vhNo">Vehicle No</label>
+                    <input type="text" id="VhNo" name="VhNo">
+                </div>
+                <div class="col">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="Name" readonly>
+                </div>
+                <div class="col">
+                    <label for="mobile">Mobile</label>
+                    <input type="text" id="mobile" name="MobNo" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="PUC" name="PUC" value="PUC" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="PUCvalid" name="PUCvalid" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewPUC" name="NewPUCvalid">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="InsuranceT" name="InsuranceT" value="Insurance" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="Insurance" name="Insurance" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewInsurance" name="NewInsurance">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="TaxT" name="TaxT" value="TAX" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="Tax" name="Tax" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewTax" name="NewTax">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="PermitT" name="PermitT" value="Permit" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="Permit" name="Permit" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewPermit" name="NewPermit">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="PtaxT" name="PtaxT" value="P-TAX" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="PTax" name="PTax" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewPTax" name="NewPTax">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="ETaxT" name="ETaxT" value="E-TAX" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="ETax" name="ETax" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewETax" name="NewETax">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <input type="text" id="FitnessT" name="FitnessT" value="Fitness" readonly>
+                </div>
+                <div class="col">
+                    <input type="text" id="Fitness" name="Fitness" placeholder="valid till" readonly>
+                </div>
+                <div class="col">
+                    <input type="date" id="NewFitness" name="NewFitness">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" onclick="openPopup()">Update</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()"> &times;</span>
+            <p style="color: black;" >Data Submitted Successfully!!</p>
+        </div>
+    </div>
+
+    <script>
+   document.getElementById('VhNo').addEventListener('blur', async function() {
+    const VhNo = this.value.trim().toUpperCase();
+    console.log('Vehicle No field lost focus. Vehicle No entered:', VhNo);
+
+    if (VhNo === '') {
+        console.log('Vehicle No is empty. Clearing fields.');
+        // Clear fields if Vehicle No is empty
+        document.getElementById('name').value = '';
+        document.getElementById('mobile').value = '';
+        document.getElementById('PUCvalid').value = '';
+        document.getElementById('Insurance').value = '';
+        document.getElementById('Tax').value = '';
+        document.getElementById('Permit').value = '';
+        document.getElementById('PTax').value = '';
+        document.getElementById('ETax').value = '';
+        document.getElementById('Fitness').value = '';
+        return;
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return ''; // Handle cases where dateString is undefined or null
+        const date = new Date(dateString);
+        const day = String(date.getUTCDate()).padStart(2, '0');
+        const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Months are zero-based
+        const year = date.getUTCFullYear();
+        return `${day}-${month}-${year}`;
+    }
+
+    try {
+        console.log('Fetching data for Vehicle No:', VhNo);
+        const response = await fetch('/fetch-veh', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ VhNo })
+        });
+
+        const data = await response.json();
+        console.log('Response received:', data);
+
+        if (response.ok) {
+            // Update the form fields with the fetched data
+            document.getElementById('name').value = data.Owner || '';
+            document.getElementById('mobile').value = data.MobNo || '';
+            document.getElementById('PUCvalid').value = formatDate(data.PUCvalid) || '';
+            document.getElementById('Insurance').value = formatDate(data.Insurance) || '';
+            document.getElementById('Tax').value = formatDate(data.Tax) || '';
+            document.getElementById('Permit').value = formatDate(data.Permit) || '';
+            document.getElementById('PTax').value = formatDate(data.PTax) || '';
+            document.getElementById('ETax').value = formatDate(data.ETax) || '';
+            document.getElementById('Fitness').value = formatDate(data.Fitness) || '';
+        } else {
+            console.error('Vehicle not found:', data.message);
+            alert(data.message || 'Vehicle not found');
+            // Clear the fields if the vehicle is not found
+            document.getElementById('name').value = '';
+            document.getElementById('mobile').value = '';
+            document.getElementById('PUCvalid').value = '';
+            document.getElementById('Insurance').value = '';
+            document.getElementById('Tax').value = '';
+            document.getElementById('Permit').value = '';
+            document.getElementById('PTax').value = '';
+            document.getElementById('ETax').value = '';
+            document.getElementById('Fitness').value = '';
+        }
+    } catch (error) {
+        console.error('Error occurred:', error);
+        alert('Something went wrong!');
+        // Clear the fields on error
+        document.getElementById('name').value = '';
+        document.getElementById('mobile').value = '';
+        document.getElementById('PUCvalid').value = '';
+        document.getElementById('Insurance').value = '';
+        document.getElementById('Tax').value = '';
+        document.getElementById('Permit').value = '';
+        document.getElementById('PTax').value = '';
+        document.getElementById('ETax').value = '';
+        document.getElementById('Fitness').value = '';
+    }
+});
+function openPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            document.querySelector(".three-column-form").classList.add("blur-background");
+        }
+
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+           document.querySelector(".three-column-form").classList.remove("blur-background");
+            document.getElementById('threeColumnForm').reset();
+        }
+
+        
+    </script>
+</body>
+</html>

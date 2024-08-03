@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Notifications</title>
+  <style>
+   body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  padding: 20px;
+  background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.card:before {
+  content: '';
+  position: absolute;
+  top: -75px;
+  right: -75px;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+.card:hover:before {
+  right: -50px;
+}
+.card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+}
+.card.expired {
+  background: linear-gradient(145deg, #ff9999, #ff6666);
+  color: #fff;
+}
+.card.expired .header, .card.expired .details {
+  color: #fff;
+}
+.card.expiring {
+  background: linear-gradient(145deg, #ffecb3, #ffd54f);
+  color: #7d5800;
+}
+.card.expiring .header, .card.expiring .details {
+  color: #7d5800;
+}
+.card .header {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.4em;
+}
+.card .details {
+  font-size: 1.1em;
+}
+
+  </style>
+</head>
+<body>
+
+  <h2>Expired</h2>
+  <div id="expired-container">
+    {{#each expiredNotifications}}
+      <div class="card expired">
+        <div class="header">{{this.vehicleNumber}}</div>
+        <div class="details">{{this.owner}}</div>
+        <div class="details">{{this.expiringFields}}</div>
+      </div>
+    {{/each}}
+  </div>
+
+  <h2>Upcoming Expirations</h2>
+  <div id="upcoming-container">
+    {{#each upcomingNotifications}}
+      <div class="card expiring">
+        <div class="header">{{this.vehicleNumber}}</div>
+        <div class="details">{{this.owner}}</div>
+        <div class="details">{{this.expiringFields}}</div>
+      </div>
+    {{/each}}
+  </div>
+
+</body>
+</html>

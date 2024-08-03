@@ -1,475 +1,987 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>WHEELDATA</title>
-        <link rel="icon" href="./favicon.jpg" type="image/x-icon">
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Dashboard</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'>
 
-        <style>
-        @import url('https://fonts.googleapis.com/css?family=Roboto');
-
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #e8e8e8;
-            zoom: 90%;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-        }
-
-        #header {
-            height: 60px;
-            background-color: #2F1847;
-        }
-
-        #log-out button {
-            height: 40px;
-            width: 100px;
-            background-color: beige;
-            float: right;
-            margin: 7px 10px 0px 0px;
-            transition: background-color 0.3s;
-            /* Add transition for smooth effect */
-        }
-
-        #log-out button:hover {
-            cursor: pointer;
-            background-color: lightgoldenrodyellow;
-            /* Change color on hover */
-        }
-
-        i {
-            margin-right: 10px;
-        }
-
-        h2 {
-            margin: 0px;
-        }
-
-        h6 {
-            margin: 0px;
-            color: #777;
-        }
-
-        .main {
-            display: flex;
-        }
-
-        #accordian {
-            background-image: linear-gradient(to right, #3c4278, #3270a6);
-            width: 250px;
-            padding: 10px;
-            float: left;
-            height: auto;
-            overflow-x: hidden;
-            position: relative;
-            padding-right: 0px;
-
-        }
-
-        .logininfo {
-            height: 265px;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .logininfo img {
-            height: 170px;
-            margin: 6px -8px;
-            border-radius: 50%;
-        }
-
-        .main-navbar {
-            position: relative;
-        }
-
-        #accordian li {
-            list-style-type: none;
-            cursor: pointer;
-        }
-
-        #accordian ul li a {
-            text-decoration: none;
-            font-size: 15px;
-            line-height: 45px;
-            display: block;
-            padding: 0px 20px;
-            transition-duration: 0.6s;
-            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            position: relative;
-            color: white;
-        }
-
-        #accordian>ul>li.active>a {
-            color: #20283e;
-            background-color: transparent;
-            transition: all 0.7s;
-        }
-
-
-        #accordian a:not(:only-child):after {
-            content: "\f105";
-            position: absolute;
-            right: 20px;
-            top: 10%;
-            font-size: 14px;
-            font-family: "Font Awesome 5 Free";
-            display: inline-block;
-            padding-right: 3px;
-            vertical-align: middle;
-            font-weight: 900;
-            transition: 0.5s;
-        }
-
-        #accordian .active>a:not(:only-child):after {
-            transform: rotate(90deg);
-        }
-
-        .selector-active {
-            width: 100%;
-            display: inline-block;
-            position: absolute;
-            height: 37px;
-            top: 0px;
-            left: 0px;
-            transition-duration: 0.6s;
-            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            background-color: #e8e8e8;
-            border-top-left-radius: 50px;
-            border-bottom-left-radius: 50px;
-        }
-
-        .selector-active .top,
-        .selector-active .bottom {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background-color: #e8e8e8;
-            right: 0;
-        }
-
-        .selector-active .top {
-            top: -25px;
-        }
-
-        .selector-active .bottom {
-            bottom: -25px;
-        }
-
-        .selector-active .top:before,
-        .selector-active .bottom:before {
-            content: '';
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #3270a6;
-        }
-
-        .selector-active .top:before {
-            left: -25px;
-            top: -25px;
-        }
-
-        .selector-active .bottom:before {
-            bottom: -25px;
-            left: -25px;
-        }
-
-        .mainbody {
-            width: 100%;
-        }
-
-        #frame {
-            height: 850px;
-            width: 100%;
-        }
-
-        #username {
-            color: white;
-            text-align: center;
-            float: right;
-            font-family: Georgia, 'Times New Roman', Times, serif;
-            margin: 15px 15px;
-            letter-spacing: 1.2px;
-            font-size: 20px;
-        }
-
-        #Project-Name {
-            color: white;
-            font-family: 'Times New Roman', Times, serif;
-            size: 20px;
-        }
-
-        footer {
-            background-color: #171618;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        footer .copyright {
-            /* margin-bottom: 10px;*/
-        }
-
-        .mobhead {
-            display: none;
-        }
-
-        .mobhead img {
-            height: 50px;
-            width: 50px;
-            border-radius: 50px;
-            display: none;
-        }
-
-        .forflex{
-            display: flex;
-            flex-direction: column;
-        }
-
-        /*       @media only screen and (max-width: 768px) {
-    .header {
-        height: auto;
+  <style>
+    :root {
+    /* Font families */
+    --font-primary: "Poppins", sans-serif;
+    --font-secondary: "Roboto", sans-serif;
+    /* Colors */
+    --dark-bg: #111525;
+    --dark-secondary: #161b2e;
+    --card-bg: #1d2238;
+    --light-purple: #8a7fa4;
+    --turquoise: #44d7b6;
+    --pink: #f56ee1;
+    --white: #ffffff;
+  }
+  
+  /* Global rules */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: var(--dark-bg);
+    color: var(--white);
+    font-family: var(--font-secondary);
+  }
+  
+  body h2,
+  body h3,
+  body h5 {
+    font-family: var(--font-primary);
+  }
+  
+  .grid__stagger {
+    opacity: 0;
+  }
+  
+  .scrollbar__style::-webkit-scrollbar {
+    width: 5px;
+    background-color: #f9a7fa1d;
+  }
+  .scrollbar__style::-webkit-scrollbar-thumb {
+    background-color: #f56ee1;
+    border-radius: 5px;
+  }
+  .scrollbar__style::-webkit-scrollbar-thumb:hover {
+    background-color: #f23ed7;
+  }
+  
+  .sidebar {
+    background: var(--dark-secondary);
+    left: 0;
+    top: 0;
+    height: 100vh;
+    min-width: 200px;
+    padding: 1rem;
+    overflow-y: scroll;
+    position: static;
+  
+  }
+  
+  iframe {
+    border: none;
+    width: 100%;
+    height: 700px;
+  }
+  .sidebar__profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2rem 0;
+  }
+  .sidebar__profile__img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .sidebar__profile__data {
+    display: flex;
+    gap: 10px;
+    margin-top: 7px;
+    font-size: 0.9rem;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+  }
+  .sidebar__profile__data__icon {
+    color: var(--light-purple);
+    font-size: 0.8rem;
+    line-height: 1rem;
+    cursor: pointer;
+  }
+  .sidebar__title {
+    font-size: 1.7rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+  .sidebar__title span {
+    font-size: 0.6rem;
+    color: var(--light-purple);
+    font-style: italic;
+  }
+  .sidebar__button {
+    width: 100%;
+    border-radius: 20px;
+    background-image: linear-gradient(to right, #f356dc, #ae6ef5);
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    position: relative;
+    margin-top: 30px;
+    background-size: 200%;
+    transition: all 0.3s;
+  }
+  .sidebar__button:hover {
+    background-size: 100%;
+    transition: all 0.3s;
+    scale: 1.02;
+  }
+  .sidebar__button:active {
+    transform: translatey(2px);
+  }
+  .sidebar__button span {
+    padding-left: 8px;
+  }
+  .sidebar__button i {
+    position: absolute;
+    right: 15px;
+  }
+  
+  .sidebarNav__list {
+    list-style: none;
+  }
+  .sidebarNav__item {
+    margin-top: 2rem;
+    list-style-type: none;
+  }
+  .sidebarNav__link {
+    color: var(--white);
+    text-decoration: none;
+    position: relative;
+    display: block;
+  }
+  .sidebarNav__text, .sidebarNav__icon {
+    color: var(--pink);
+    cursor: pointer;
+  }
+  .sidebarNav__icon {
+    font-size: 1.3rem;
+    margin-right: 5px;
+  }
+  .sidebarNav__iconSizeCustomer {
+    font-size: 1.1rem;
+  }
+  .sidebarNav__iconSizeChannels {
+    font-size: 1.2rem;
+  }
+  .sidebarNav__text {
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  .sidebarNav__switch {
+    position: absolute;
+    right: 0;
+    top: 1px;
+    color: var(--light-purple);
+  }
+  .sidebarNav__divider {
+    margin-top: 20px;
+    width: 100%;
+    height: 1px;
+    background: var(--light-purple);
+    opacity: 0.3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .submenu {
+    list-style: none;
+    margin: 0.7rem 0;
+  }
+  .submenu__item {
+    position: relative;
+    padding: 0.8rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+  }
+  .submenu__item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right, #f56ee1, #ae6ef5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+  .submenu__item:active {
+    transform: translatey(2px);
+    transition: transform 0.3s;
+  }
+  .submenu__item:hover {
+    color: #000;
+  }
+  .submenu__item:hover::after {
+    opacity: 1;
+  }
+  .submenu__link {
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /***********
+  SIDEBAR END
+  ************/
+  /***********
+  DASHBOARD
+  ************/
+  .dashboard {
+    display: flex;
+  }
+  .dashboard__content {
+    height: 100vh;
+    margin-left: 270px;
+  }
+  .dashboard__content__title {
+    padding: 1.5rem 0;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .dashboard__grid {
+    display: grid;
+    grid-template-areas: "dateRange region channel salesData" "totalCustomer orders salesVolume increase" "messageBox messageBox productCategories productCategories" "salesFigure salesFigure salesChart salesChart";
+    grid-template-columns: repeat(4, 260px);
+    align-items: center;
+    padding-bottom: 50px;
+    gap: 20px;
+  }
+  .dashboard__grid #statistic-time {
+    grid-area: dateRange;
+  }
+  .dashboard__grid #statistic-region {
+    grid-area: region;
+  }
+  .dashboard__grid #statistic-channel {
+    grid-area: channel;
+  }
+  .dashboard__grid #customerInfo {
+    grid-area: newCustomers;
+  }
+  .dashboard__grid #salesData {
+    grid-area: salesData;
+  }
+  .dashboard__grid #totalCustomer {
+    grid-area: totalCustomer;
+  }
+  .dashboard__grid #orders {
+    grid-area: orders;
+  }
+  .dashboard__grid #salesVolume {
+    grid-area: salesVolume;
+  }
+  .dashboard__grid #increase {
+    grid-area: increase;
+  }
+  .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    height: 350px;
+  }
+  .dashboard__grid #data-chartOne h3,
+  .dashboard__grid #data-chartTwo h3,
+  .dashboard__grid #data-chartThree h3 {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .dashboard__grid #messageBox {
+    grid-area: messageBox;
+  }
+  .dashboard__grid #data-chartOne {
+    grid-area: salesFigure;
+  }
+  .dashboard__grid #data-chartOne #line-chart {
+    padding: 1rem;
+    margin-top: 10px;
+  }
+  .dashboard__grid #data-chartTwo {
+    grid-area: productCategories;
+  }
+  .dashboard__grid #data-chartTwo #doughnut {
+    margin: 10px 0 0 20px;
+  }
+  .dashboard__grid #data-chartThree {
+    grid-area: salesChart;
+  }
+  .dashboard__grid #data-chartThree #polar-area-chart {
+    margin-top: 10px;
+    padding: 1rem;
+  }
+  
+  .dashboard__grid__selectLabel {
+    font-size: 0.8rem;
+    height: 80px;
+    color: var(--pink);
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 1.2rem;
+    border-radius: 15px;
+    border: none;
+  }
+  .dashboard__grid__selectLabel__select {
+    margin: 10px 0;
+    width: 90%;
+    background: transparent;
+    color: var(--white);
+    border: none;
+  }
+  
+  .sales__data {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .sales__data__profit, .sales__data__margin {
+    position: relative;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 0 0.8rem;
+    align-items: center;
+    border-radius: 15px;
+    height: 35px;
+  }
+  .sales__data__profit__icon, .sales__data__margin__icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+  .sales__data__profit__result, .sales__data__margin__result {
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.65rem;
+    position: absolute;
+    right: 30px;
+  }
+  .sales__data__profit {
+    margin-bottom: 10px;
+  }
+  .sales__data__profit__icon {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+  }
+  .sales__data__profit__result {
+    background: #7b67ff;
+  }
+  .sales__data__margin__icon {
+    background: linear-gradient(135deg, #03a9f4, #00bcd4);
+  }
+  .sales__data__margin__result {
+    background: #29bf9d;
+  }
+  
+  .dashboard__grid__salesFigures {
+    position: relative;
+    height: 170px;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    font-weight: bold;
+  }
+  .dashboard__grid__salesFigures__salesValues {
+    font-family: var(--font-primary);
+    text-align: center;
+    font-size: 2.5rem;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+  }
+  .dashboard__grid__salesFigures__growth {
+    font-size: 4rem;
+    margin-top: 8px;
+  }
+  .dashboard__grid__salesFigures__winOrLoose {
+    text-align: center;
+    font-size: 0.7rem;
+  }
+  .dashboard__grid__salesFigures__winOrLoose i {
+    padding-left: 3px;
+  }
+  .dashboard__grid__salesFigures__period {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 0.55rem;
+  }
+  
+  .card-purple {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+    color: white;
+  }
+  
+  .card-blue {
+    background: linear-gradient(135deg, #03a9f4, #00bcd4);
+    color: white;
+  }
+  
+  .message__center {
+    background: var(--card-bg);
+    height: 350px;
+    border-radius: 15px;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+  }
+  .message__center__line {
+    height: 0.5px;
+    width: 95%;
+    background: var(--pink);
+    margin: auto;
+    opacity: 0.4;
+  }
+  .message__center__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .message__center__img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  .message__center__container {
+    overflow-y: scroll;
+    height: 250px;
+    margin: 20px auto;
+  }
+  .message__center__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem;
+  }
+  .message__center__message {
+    font-size: 0.7rem;
+  }
+  .message__center__message__from {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    display: inline-block;
+    color: var(--pink);
+  }
+  .message__center__message__text {
+    display: block;
+    width: 90%;
+  }
+  .message__center__message__question, .message__center__message__done {
+    border-radius: 15px;
+    border: none;
+    padding: 0.5rem;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.6rem;
+  }
+  .message__center__message__question {
+    background: #7b67ff;
+  }
+  .message__center__message__done {
+    background: #29bf9d;
+  }
+  .message__center__message__timeDate {
+    font-size: 0.6rem;
+    font-style: italic;
+    opacity: 0.6;
+  }
+  
+  .addMoreChartsBtn {
+    text-align: center;
+    display: block;
+    opacity: 1;
+    margin-top: 20px;
+    padding-bottom: 50px;
+  }
+  .addMoreChartsBtn:active {
+    transform: translateY(2px);
+  }
+  .addMoreChartsBtn i {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+    font-size: 3rem;
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+  }
+  .addMoreChartsBtn i:hover {
+    transform: rotate(90deg);
+  }
+  
+  @media (min-width: 1750px) {
+    .dashboard__grid {
+      grid-template-areas: "dateRange region channel salesData salesFigure" "totalCustomer orders salesVolume increase salesFigure" "messageBox messageBox productCategories productCategories salesChart";
+      justify-content: center;
+      grid-template-columns: repeat(4, 250px);
+      margin-top: 30px;
+      padding: 0;
     }
-    #log-out button {
-        margin: 10px auto;
-        float: none;
+    .dashboard__grid .message__center,
+  .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+      height: 280px;
     }
-    #username {
-        text-align: center;
-        float: none;
-        margin: 10px auto;
+    .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartThree {
+      width: 400px;
     }
-    .logininfo {
-        height: auto;
+    .dashboard__grid #data-chartOne #line-chart {
+      padding: 0;
+      margin-top: 0.5rem;
     }
-    .logininfo img {
-        height: 120px;
+    .dashboard__grid #data-chartTwo #doughnut {
+      margin-top: -10px;
+      transform: scale(0.85);
     }
-    #accordian {
-        width: 100%;
-        float: none;
+    .dashboard__grid #data-chartThree {
+      margin: 0;
     }
-    #accordian ul.show-dropdown {
-        position: static;
+    .dashboard__grid #data-chartThree #polar-area-chart {
+      padding: 0;
+      margin-top: 1rem;
     }
-    #accordian ul.show-dropdown li {
-        display: block;
-        width: 100%;
-        text-align: center;
+  
+    .message__center__container {
+      height: 185px;
     }
-    #accordian ul.show-dropdown li a {
-        display: block;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
+  
+    .addMoreChartsBtn {
+      margin-top: 40px;
     }
-    #frame {
-        height: auto;
+  }
+  @media (max-width: 1380px) {
+    .dashboard__grid {
+      grid-template-areas: "dateRange region" "channel salesData" "totalCustomer orders" "salesVolume increase" "messageBox messageBox" "productCategories productCategories" "salesFigure salesFigure" "salesChart salesChart";
+      grid-template-columns: repeat(2, 350px);
     }
-    footer {
-        padding: 10px 0;
+    .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+      height: 410px;
     }
-}*/
+    .dashboard__grid .message__center__container {
+      width: 90%;
+    }
+  }
+  @media (min-width: 320px) and (max-width: 950px) {
+    .dashboard__grid {
+      grid-template-columns: repeat(2, 250px);
+    }
+  }
+  </style>
+</head>
+<script>
+  function change(name) {
+    update(name);
+  }
+  function update(name) {
+    var i = name;
+    switch (name) {
+      case "dashboard":
+        console.log("Setting src to DASHBOARD.hbs");
+        document.getElementById('frame').src = './dashboard'; // Use a relative path with the correct file extension
+        break;
 
-        @media only screen and (max-width: 768px) {
-            #accordian {
-                display: none;
+      case "register":
+        console.log("Setting src to registration.hbs");
+        document.getElementById('frame').src = './register'; // Use a relative path
+        break;
+
+      case "update":
+        console.log("Setting src to userupdate.hbs");
+        document.getElementById('frame').src = './update'; // Use a relative path
+        break;
+
+      case "view":
+        console.log("Setting src to uerview.hbs");
+        document.getElementById('frame').src = './view'; // Use a relative path
+        break;
+
+      case "v-registration":
+        console.log("Setting src to vehical rgistration.hbs");
+        document.getElementById('frame').src = './vehicalreg'; // Use a relative path
+        break;
+
+      case "v-Update":
+        console.log("Setting src to vehical update.hbs.hbs");
+        document.getElementById('frame').src = './vupdate'; // Use a relative path
+        break;
+
+      case "More":
+        console.log("setting view to More.hbs");
+        document.getElementById('frame').src = './More';
+        break;
+
+      case "notify":
+        console.log("setting view to notifications.hbs");
+        document.getElementById('frame').src = './notifications';
+        break;
+
+      default:
+        console.log("Invalid name provided");
+        break;
+    }
+  }
+  // Store sidebar timelines
+let sidebarTimelines = {};
+
+document.addEventListener("DOMContentLoaded", () => {
+/*******************
+SIDEBAR ANIMATIONS
+*******************/
+  // Select all sidebar navigation switches for interaction
+  const toggleSubmenu = document.querySelectorAll(".sidebarNav__switch");
+  // Iterate over each submenu switch to set up individual animations
+  toggleSubmenu.forEach((submenuSwitch) => {
+    // Retrieve the unique identifier for each submenu
+    const menuValue = submenuSwitch.getAttribute("data-sidebar");
+    // Select the corresponding submenu DOM element
+    const submenuWrapper = document.querySelector(
+      `.submenu[data-sidebar='${menuValue}']`
+    );
+
+    // Initialize with closed state for certain tabs
+    const shouldBeClosedByDefault = submenuWrapper.classList.contains(
+      "closed-by-default"
+    );
+
+    // Initialize GSAP timeline for each submenu, starting in a paused state
+    sidebarTimelines[menuValue] = gsap.timeline({ paused: true });
+
+    // Check if the submenu should be closed initially
+    if (shouldBeClosedByDefault) {
+      // Configure animation: start closed (hidden) and animate to open (visible)
+      sidebarTimelines[menuValue]
+        .fromTo(submenuWrapper, { autoAlpha: 0, height: 0 }, { height: "auto" })
+        .to(submenuWrapper, { autoAlpha: 1, ease: "slow(0.7,0.7,false)" });
+    } else {
+      // Configure animation: start open (visible) and animate to closed (hidden)
+      sidebarTimelines[menuValue]
+        .fromTo(
+          submenuWrapper,
+          { autoAlpha: 1 },
+          { autoAlpha: 0, ease: "slow(0.7,0.7,false)" }
+        )
+        .to(submenuWrapper, { height: 0 });
+    }
+
+    // Add click event listener to each submenu switch
+    submenuSwitch.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleSidebarAnimation(menuValue);
+    });
+  });
+
+  // Function to toggle the animation of a given submenu
+  function toggleSidebarAnimation(menuValue) {
+    const tl = sidebarTimelines[menuValue];
+
+    // Play or reverse based on the current progress
+    if (tl.progress() === 1) {
+      tl.reverse();
+    } else {
+      tl.play();
+    }
+  }
+
+/*******************
+SIDEBAR ANIMATIONS END
+*******************/
+
+/*******************
+Dahboard Stagger animation
+*******************/
+  gsap.fromTo(
+    ".grid__stagger",
+    { y: 10, opacity: 0 },
+    { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power1.in" }
+  );
+  gsap.fromTo(
+    ".addMoreChartsBtn",
+    { autoAlpha: 0 },
+    { autoAlpha: 1, delay: 2.5, duration: 0.5, ease: "power1.in" }
+  );
+
+
+/*******************
+Chart.js
+*******************/
+
+  // Chart One
+  const ctx = document.getElementById("line-chart").getContext("2d");
+  const myLineChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June"],
+      datasets: [
+        {
+          label: "Current period",
+          backgroundColor: "rgb(68, 215, 182)",
+          borderColor: "#44d7b6",
+          data: [70, 100, 130, 120, 180, 100],
+          fill: false,
+          borderWidth: 2
+        },
+        {
+          label: "Previous year",
+          backgroundColor: "rgb(77, 91, 158)",
+          borderColor: "#4d5b9e",
+          data: [50, 140, 50, 220, 160, 180],
+          fill: false,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            padding: 20,
+            usePontstyle: true
+          }
+        }
+      }
+    }
+  });
+
+  // Chart Two
+  const ctx2 = document.getElementById("doughnut").getContext("2d");
+  const myDoughnutChart = new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: ["Advertising", "Market Research", "Strategy", "Consulting"],
+      datasets: [
+        {
+          label: "My second dataset",
+          backgroundColor: [
+            "rgba(245, 110, 225, .3)",
+            "rgba(68, 215, 182, .5)",
+            "rgba(77, 91, 158, .5)",
+            "rgb(75, 192, 192)"
+          ],
+          data: [12, 19, 3, 5]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      mainAspectRatio: true,
+      aspectRatio: 2,
+      layout: {
+        padding: {
+          top: -100
+        }
+      },
+      plugins: {
+        datalabels: {
+          color: "#fff",
+          textAlign: "center",
+          font: {
+            weight: "bold",
+            family: 'Poppins", sans-serif'
+          }
+        },
+        legend: {
+          labels: {
+            color: "#fff",
+            font: {
+              size: 12,
             }
-
-            #header {
-                display: none;
-            }
-
-            .mobhead {
-                display: flex;
-                align-items: center;
-            }
-
-            .mobhead img {
-                display: inline-flex;
-                margin: 5px 15px;
-            }
-
-            .mobhead p {
-                color: white;
-                font-size: 25px;
-                font-family: 'Times New Roman', Times, serif;
-            }
-
-            .logout button {
-                float: right;
-            }
+          },
+          position: "left",
+          display: true
+        },
+        title: {
+          display: false
+        },
+        tooltip: {
+          enable: true
         }
-    </style>
-        <script>
+      }
+    }
+  });
 
-        $(document).ready(function () {
-            // Handle click events on menu items
-            $("#accordian").on("click", "li", function (e) {
-                e.preventDefault(); // Prevent default link behavior
-                var pageURL = $(this).find('a').attr('href'); // Get the page URL from the clicked item
+  // Use Function to update the Doughnut Font Size
+  updateFontSize(myDoughnutChart);
 
-                // Load the content dynamically into the content div
-                $('#content').fadeOut('fast', function () {
-                    $(this).load(pageURL, function () {
-                        $(this).fadeIn('fast');
-                    });
-                });
-            });
+  // Add event listener to react to size updates
+  window.addEventListener("resize", () => {
+    updateFontSize(myDoughnutChart);
+  });
 
-            // Rest of your existing JavaScript code here
-            // ---------vertical-menu with-inner-menu-active-animation-----------
-            var tabsVerticalInner = $('#accordian');
-            var selectorVerticalInner = $('#accordian').find('li').length;
-            var activeItemVerticalInner = tabsVerticalInner.find('.active');
-            var activeWidthVerticalHeight = activeItemVerticalInner.innerHeight();
-            var activeWidthVerticalWidth = activeItemVerticalInner.innerWidth();
-            var itemPosVerticalTop = activeItemVerticalInner.position();
-            var itemPosVerticalLeft = activeItemVerticalInner.position();
-            $(".selector-active").css({
-                "top": itemPosVerticalTop.top + "px",
-                "left": itemPosVerticalLeft.left + "px",
-                "height": activeWidthVerticalHeight + "px",
-                "width": activeWidthVerticalWidth + "px"
-            });
+  // Chart Three
+  const ctx3 = document.getElementById("polar-area-chart").getContext("2d");
 
-            $("#accordian").on("click", "li", function (e) {
-                $('#accordian ul li').removeClass("active");
-                $(this).addClass('active');
-                var activeWidthVerticalHeight = $(this).innerHeight();
-                var activeWidthVerticalWidth = $(this).innerWidth();
-                var itemPosVerticalTop = $(this).position();
-                var itemPosVerticalLeft = $(this).position();
-                $(".selector-active").css({
-                    "top": itemPosVerticalTop.top + "px",
-                    "left": itemPosVerticalLeft.left + "px",
-                    "height": activeWidthVerticalHeight + "px",
-                    "width": activeWidthVerticalWidth + "px"
-                });
-            });
-
-            var path = window.location.pathname.split("/").pop();
-            if (path === '') {
-                path = 'index.hbs';
-            }
-            var target = $('#accordian ul li a[href="' + path + '"]');
-            target.parent().addClass('active');
-        });
-
-        function change(name) {
-            update(name);
+  const myPolarAreaChart = new Chart(ctx3, {
+    type: "bar",
+    data: {
+      labels: ["Advertising", "Research", "Strategy", "Consulting"],
+      datasets: [
+        {
+          label: "Current Period",
+          backgroundColor: "#44d7b6",
+          borderColor: "#161b2e",
+          borderWidth: 1,
+          data: [50, 100, 150, 200]
+        },
+        {
+          label: "Previuos year",
+          backgroundColor: "#6c5dd3",
+          borderColor: "#4d5b9e",
+          borderWidth: 1,
+          data: [80, 120, 120, 160]
         }
-
-        function update(name) {
-            var i = name;
-            switch (name) {
-                case "dashboard":
-                    console.log("Setting src to DASHBOARD.hbs");
-                    document.getElementById('frame').src = './dashboard'; // Use a relative path with the correct file extension
-                    break;
-
-                case "register":
-                    console.log("Setting src to registration.hbs");
-                    document.getElementById('frame').src = './register'; // Use a relative path
-                    break;
-
-                case "update":
-                    console.log("Setting src to update.hbs");
-                    document.getElementById('frame').src = './update'; // Use a relative path
-                    break;
-
-                case "view":
-                    console.log("Setting src to view.hbs");
-                    document.getElementById('frame').src = './view'; // Use a relative path
-                    break;
-                case "More":
-                    console.log("setting view to More.hbs");
-                    document.getElementById('frame').src = './More';
-                    break;
-                default:
-                    console.log("Invalid name provided");
-                    break;
-            }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
         }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            size: 16,
+            color: "#a4a4a4"
+          }
+        }
+      }
+    }
+  });
+});
 
-    </script>
-    </head>
+// Update function for Chart2 for bigger Screens
+function updateFontSize(ctx) {
+  const setFontSize = window.innerWidth > 1450 ? 18 : 16;
 
-    <body>
-        <div class="forflex">
-            <div id="header">
-                <a href="/logout" id="log-out"><button>LOGOUT</button></a>
-                <h2 id="username"><b>{{name}}</b></2>
-            </div>
+  ctx.options.plugins.legend.labels.font.size = setFontSize;
+  ctx.update();
+}
+</script>
 
-                <div class="main">
-                    <div id="accordian">
-                        <div class="logininfo">
+<body>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap"
+    rel="stylesheet">
 
-                            <center><img
-                                    src="data:image/jpeg;base64,{{base64Photo}}"
-                                    alt="image here"></center>
-
-                            <center>
-                                <p id="vihical-no">{{cname}}</p>
-                            </center>
-                        </div>
-                        <ul class="show-dropdown main-navbar">
-                            <div class="selector-active">
-                                <div class="top"></div>
-                                <div class="bottom"></div>
-                            </div>
-                            <li class="active">
-                                <a onclick="change('dashboard')"><i
-                                        class="fas fa-tachometer-alt"></i>Dashboard</a>
-                            </li>
-                            <li>
-                                <a onclick="change('register')"><i
-                                        class="far fa-address-book"></i>New
-                                    Admission</a>
-                            </li>
-                            <li>
-                                <a onclick="change('update')"><i
-                                        class="far fa-clone"></i>Update
-                                    information</a>
-                            </li>
-                            <li>
-                                <a onclick="change('view')"><i
-                                        class="far fa-calendar-alt"></i>Student
-                                    Information</a>
-                            </li>
-
-                            <li>
-                                <a onclick="change('More')"><i
-                                        class="far fa-heart"></i>More</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mainbody">
-                        <iframe src="./dashboard" id="frame"
-                            frameborder="0"></iframe>
-
-                    </div>
-                </div>
-            </div>
+  <div class="dashboard">
+    <aside class="sidebar scrollbar__style">
+      <h2 class="sidebar__title">Vehv<span>_Dashboard</span></h2>
+      <div class="sidebar__profile">
+        <img src="data:image/jpeg;base64,{{base64Photo}}" class="sidebar__profile__img" />
+        <div class="sidebar__profile__data">
+          <p class="sidebar__profile__data__name" >{{name}}</p>
+          <a href="/logout"<i class="fa-solid fa-right-from-bracket sidebar__profile__data__icon" style="text-decoration: none;"></i></a>
         </div>
-            <footer>
-                <div class="copyright">
-                    &copy; 2024 GCREATIX. All rights reserved.
-                </div>
-            </footer>
-        </body>
+      </div>
+      <nav class="sidebarNav">
+        <ul class="sidebarNav__list">
+          </li>
+          <li class="sidebarNav__item">
+            <a href="#" class="sidebarNav__link sidebarNav__link--active">
+              <i class="fa-solid fa-user-group sidebarNav__icon sidebarNav__iconSizeCustomer"></i>
+              <span class="sidebarNav__text">CUSTOMER</span>
+              <span class="sidebarNav__switch" data-sidebar="customer">+</span>
+            </a>
+            <ul class="submenu closed-by-default" data-sidebar="customer">
+              <li onclick="change('register')" class="submenu__item">
+                <a class="submenu__link">New Ragistration</a>
+              </li>
+              <li onclick="change('update')" class="submenu__item">
+                <a class="submenu__link">Update information</a>
+              </li>
+              <li onclick="change('view')" class="submenu__item">
+                <a class="submenu__link">View</a>
+              </li>
+            </ul>
+            <div class="sidebarNav__divider"></div>
+            <!--<li class="sidebarNav__item">
+          <a href="#" class="sidebarNav__link sidebarNav__link--active">
+            <i class="sidebarNav__icon fa-solid fa-gear"></i>
+            <span class="sidebarNav__text">SETTINGS</span>
+            <span class="sidebarNav__switch" data-sidebar="settings">+</span>
+          </a>
+          <ul class="submenu" data-sidebar="settings">
+            <li class="submenu__item">
+              <a href="#" class="submenu__link">Profile</a>
+            </li>
+            <li class="submenu__item">
+              <a href="#" class="submenu__link">Dashboard</a>
+            </li>
+          </ul>
+          <div class="sidebarNav__divider"></div>
+        </li>-->
+          <li class="sidebarNav__item">
+            <a href="#" class="sidebarNav__link sidebarNav__link--active">
+              <i class="fa-solid fa-chart-column sidebarNav__icon"></i>
+              <span class="sidebarNav__text">SALES</span>
+              <span class="sidebarNav__switch" data-sidebar="sales">+</span>
+            </a>
+            <ul  class="submenu" data-sidebar="sales">
+              <li onclick="change('v-registration')" class="submenu__item">
+                <a  class="submenu__link">New Ragistration</a>
+              </li>
+              <li onclick="change('v-Update')" class="submenu__item">
+                <a class="submenu__link">Update data</a>
+              </li>
+             <li onclick="change('More')" class="submenu__item">
+                <a class="submenu__link">Other</a>
+              </li>
+            </ul>
+            <div class="sidebarNav__divider"></div>
+          </li>
+          <li class="sidebarNav__item">
+            <a onclick="change('notify')" class="sidebarNav__link sidebarNav__link--active">
+              <i class="fa-solid fa-layer-group sidebarNav__icon sidebarNav__iconSizeChannels"></i>
+              <span class="sidebarNav__text">Expired</span>
+              <span class="sidebarNav__switch" data-sidebar="channels">+</span>
+            </a>
+           <!--<ul class="submenu closed-by-default" data-sidebar="channels">
+              <li class="submenu__item">
+                <a href="#" class="submenu__link">Field Sales</a>
+              </li>
+              <li class="submenu__item">
+                <a href="#" class="submenu__link">Customer Hotline</a>
+              </li>
+              <li class="submenu__item">
+                <a href="#" class="submenu__link">Online</a>
+              </li>
+            </ul>-->
+          </li>
+        </ul>
+        <div class="sidebar__button">
+          <span>Download</span>
+          <i class="fa-solid fa-download"></i>
+        </div>
+      </nav>
+    </aside>
+    <iframe src="./dashboard" id="frame" frameborder="0"></iframe>
+  </div>
 
-    </html>
+  <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2'></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>

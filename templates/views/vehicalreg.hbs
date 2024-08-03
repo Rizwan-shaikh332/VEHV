@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Registration Form</title>
+    <style>
+        body {
+            background: #161b2e;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .registration-form {
+            background: linear-gradient(135deg, #03a9f4, #f56ee1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+        }
+
+        .registration-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 95%;
+            padding: 8px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .form-group .col {
+            width: 48%;
+        }
+
+        .registration-form button {
+            width: 100%;
+            padding: 10px;
+            background: #161b2e;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .registration-form button:hover {
+            background: #f56ee1;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            backdrop-filter: blur(8px);
+        }
+
+        .popup-content {
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .blur-background {
+            filter: blur(4px);
+        }
+        #search-results {
+      border: 1px solid #ccc;
+      max-height: 200px;
+      overflow-y: auto;
+      position: absolute;
+      background: white;
+      color: #01080b;
+      width: 19%;
+    display: none;
+    border-radius: 2px;
+    left: 750px;
+    }
+    .result-item {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .result-item:hover {
+      background: #f0f0f0;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="registration-form">
+        <h2>Vehicle Registration</h2>
+        <form action="/registervehical" id="registrationForm" method="post">
+            <div class="form-group">
+                <div class="col">
+                    <label for="vehiclenumber">Vehicle Number</label>
+                    <input type="text" id="vehiclenumber" name="VhNo" required>
+                </div>
+                <div class="col">
+                    <label for="owner">Owner</label>
+                    <input type="text" id="search-input" name="Owner" required>
+                     <div id="search-results"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col">
+                    <label for="pucvalid">PUC Valid Till</label>
+                    <input type="date" id="pucvalid" name="PUCvalid" >
+                </div>
+                <div class="col">
+                    <label for="tax">Tax Valid Till</label>
+                    <input type="date" id="tax" name="Tax" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col">
+                    <label for="insurance">Insurance Valid Till</label>
+                    <input type="date" id="insurance" name="Insurance">
+                </div>
+                <div class="col">
+                    <label for="permit">Permit Valid Till</label>
+                    <input type="date" id="permit" name="Permit" >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col">
+                    <label for="ptax">PTax Valid Till</label>
+                    <input type="date" id="ptax" name="PTax" >
+                </div>
+                <div class="col">
+                    <label for="etax">ETax Valid Till</label>
+                    <input type="date" id="etax" name="ETax" >
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <label for="Fitness">Fitness</label>
+                    <input type="date" id="Fitness" name="Fitness" >
+                </div>
+                <div class="col">
+                    <label for="Chessino">Chessi No</label>
+                    <input type="text" id="Chessino" name="ChasisNo" >
+                </div>
+            </div>
+
+            <button type="submit" onclick="openPopup()" >Submit</button>
+        </form>
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()"> &times;</span>
+            <p style="color: black;" >Vehical Registred Successfully!!</p>
+        </div>
+    </div>
+     <script>
+        function openPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            document.querySelector(".registration-form").classList.add("blur-background");
+        }
+
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+           document.querySelector(".registration-form").classList.remove("blur-background");
+            document.getElementById('registrationForm').reset();
+        }
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', async () => {
+      const query = searchInput.value;
+      console.log(query);
+      if (query.length > 0) {
+        const response = await fetch(`/search?q=${query}`);
+        const results = await response.json();
+        searchResults.innerHTML = '';
+        if (results.length > 0) {
+          searchResults.style.display = 'block';
+          results.forEach(result => {
+            const item = document.createElement('div');
+            item.className = 'result-item';
+            item.textContent = result.Name;
+            item.addEventListener('click', () => {
+              searchInput.value = result.Name;
+              searchResults.style.display = 'none';
+            });
+            searchResults.appendChild(item);
+          });
+        } else {
+          searchResults.style.display = 'none';
+        }
+      } else {
+        searchResults.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!searchResults.contains(event.target) && event.target !== searchInput) {
+        searchResults.style.display = 'none';
+      }
+    });
+        </script>
+</body>
+
+</html>

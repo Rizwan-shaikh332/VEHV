@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 const moment = require('moment');
 const bcrypt = require('bcryptjs');
 
-const studentSchema = new mongoose.Schema({
+const ownerSchema = new mongoose.Schema({
     ID: {
         type: Number,
         required: true,
-        unique: true 
+        unique: true
     },
     Name: {
         type: String,
@@ -16,75 +16,66 @@ const studentSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    SAddmissionDate: {
-        type: Date,
-        default: Date.now,
-    
-    },
-    EAddmissionDate: {
-        type: Date
-    },
-    Total: {
-        type: Number,
-        required: true,
-    },
-    Deposite: {
-        type: Number,
-        required: true,
-    },
-    Pending: {
-        type: Number,
-    },
-    Photo: {
-        type: Buffer,
-    },
-    gender: {
+    Address: {
         type: String,
-        enum: ['Male', 'Female']
-    },
-    Type : {
-        type : String,
+        required: true
     }
 });
 
 
 
-const userSchema = new mongoose.Schema({
-   
-    name: {
-        type:String
+const vehicalSchema = new mongoose.Schema({
+
+    ID :{
+        type : Number
+    },
+    OwnerID: {
+        type: Number
     },
 
-    username: { type: String,
-                required: true,
-                unique: true 
-            },
-    password: { type: String,
-                required: true
-             },
-    connstring: {
-                type : String
+    VhNo: {
+        type: String,
+        required: true,
+        unique: true
     },
-    mobno:{
-        type:Number
+    Owner: {
+        type: String,
+        required: true
     },
-    cname : {
-        type:String
+    MobNo :{
+        type: Number
     },
-    BusinessName : {
-        type : String
+    PUCvalid: {
+        type: Date
     },
-    BusinessAddress: {
-        type : String
+    Tax: {
+        type: Date
     },
-    Photo :{
-        type:Buffer
-    }    
+    Insurance: {
+        type: Date
+    },
+    Permit: {
+        type: Date
+    },
+    PTax: {
+        type: Date
+    },
+    ETax: {
+        type: Date
+    },
+    Fitness: {
+        type: Date
+    },
+    ChasisNo: {
+        type: String,
+        unique: true
+    }
 });
 
 
-const User = mongoose.model('user', userSchema);
-const Student = mongoose.model("Student", studentSchema);
 
 
-module.exports = { Student , User };
+
+const vehicalDetails = mongoose.model('Vehical', vehicalSchema);
+const OwnerDetails = mongoose.model("Owner", ownerSchema);
+module.exports = { OwnerDetails, vehicalDetails };

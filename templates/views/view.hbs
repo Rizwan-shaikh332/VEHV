@@ -1,303 +1,196 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign In form</title>
-
-    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
     <style>
-        /**
- * Eric Meyer's Reset CSS v2.0 (https://meyerweb.com/eric/tools/css/reset/)
- * http://cssreset.com
- */
-        html,
-        body,
-        div,
-        span,
-        applet,
-        object,
-        iframe,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        blockquote,
-        pre,
-        a,
-        abbr,
-        acronym,
-        address,
-        big,
-        cite,
-        code,
-        del,
-        dfn,
-        em,
-        img,
-        ins,
-        kbd,
-        q,
-        s,
-        samp,
-        small,
-        strike,
-        strong,
-        sub,
-        sup,
-        tt,
-        var,
-        b,
-        u,
-        i,
-        center,
-        dl,
-        dt,
-        dd,
-        ol,
-        ul,
-        li,
-        fieldset,
-        form,
-        label,
-        legend,
-        table,
-        caption,
-        tbody,
-        tfoot,
-        thead,
-        tr,
-        th,
-        td,
-        article,
-        aside,
-        canvas,
-        details,
-        embed,
-        figure,
-        figcaption,
-        footer,
-        header,
-        hgroup,
-        menu,
-        nav,
-        output,
-        ruby,
-        section,
-        summary,
-        time,
-        mark,
-        audio,
-        video {
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            font: inherit;
-            vertical-align: baseline;
-        }
-
-        /* HTML5 display-role reset for older browsers */
-        article,
-        aside,
-        details,
-        figcaption,
-        figure,
-        footer,
-        header,
-        hgroup,
-        menu,
-        nav,
-        section {
-            display: block;
-        }
-
         body {
-            line-height: 1;
-        }
-
-        ol,
-        ul {
-            list-style: none;
-        }
-
-        blockquote,
-        q {
-            quotes: none;
-        }
-
-        blockquote:before,
-        blockquote:after,
-        q:before,
-        q:after {
-            content: '';
-            content: none;
-        }
-
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-
-        /* Reset End */
-
-        body {
-            
-            position: relative;
-            font-family: 'Oswald', sans-serif;
-        }
-
-        .container {
-            margin: auto;
-            padding: 215px 422px;
-        }
-
-        #loginform {
-            background-color: #f7f7f7;
-            display: block;
-            height: 190px;
-            margin: 0 auto;
-            outline: solid 10px rgba(0, 0, 0, 0.10);
-            width: 210px;
-            padding: 30px;
-        }
-
-        .login-username:before {
-            content: "Student Information";
-            color: #4c4c4c;
-            font-size: 20px;
+            background: #161b2e;
+            font-family: "Roboto", sans-serif;
             text-transform: uppercase;
-            margin: 0;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-        }
-
-        .login-username label,
-        .login-password label {
-            display: none;
-            text-indent: -9999px;
-        }
-
-        .login-username .input {
-            margin-top: 15px;
-        }
-
-        .login-password .input {
-            margin-top: -14px;
-        }
-
-        ::-moz-placeholder {
-            /* Firefox 19+ */
-            color: #4c4c4c;
-            text-transform: uppercase;
-        }
-
-        ::-webkit-input-placeholder {
-            color: #5d5b5b;
-            text-transform: uppercase;
-        }
-
-        .input {
-            background-color: #fff;
-            cursor: text;
-            border: solid 1px #dedede;
-            box-sizing: border-box;
-            color: #4c4c4c;
-            font: 400 13px/18px 'oswald';
-            height: 40px;
-            margin-bottom: -18px;
-            outline: none;
-            padding: 8px 15px;
-            transition: border 0.3s;
-            width: 100%;
-        }
-
-        .input:focus {
-            border: solid 1px #f35b5b;
-        }
-
-        .login-username:after {
-            content: '*';
-            color: #f35b5b;
-            height: 35px;
-            width: 35px;
-            float: right;
-            font: 400 24px 'oswald';
-            line-height: 43px;
-            position: relative;
-            overflow: hidden;
-            right: 2px;
-            text-align: center;
-            top: -24px;
-        }
-
-        .login-password:after {
-            content: '*';
-            color: #f35b5b;
-            height: 35px;
-            width: 35px;
-            float: right;
-            font: 400 24px 'oswald';
-            line-height: 43px;
-            position: relative;
-            overflow: hidden;
-            right: 2px;
-            text-align: center;
-            top: -24px;
-        }
-
-        .button-primary {
-            background-color: #3270a6;
-            border: solid 1px transparent;
-            box-sizing: border-box;
             color: #fff;
-            cursor: pointer;
-            font: 14px/36px 'oswald';
-            height: 42px;
-            letter-spacing: 1px;
-            margin-top: -11px;
-            outline: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .registration-form {
+            background: linear-gradient(135deg, #03a9f4, #f56ee1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 600px;
+        }
+        .registration-form h2 {
+            margin-bottom: 20px;
             text-align: center;
+        }
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 95%;
+            padding: 8px;
             text-transform: uppercase;
-            transition: background-color 0.5s;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+        .form-group .col {
+            width: 48%;
+        }
+        .registration-form button {
             width: 100%;
+            padding: 10px;
+            background: #161b2e;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-right: 2%;
         }
-
-        .button-primary:hover {
-            background-color: rgb(98, 181, 205);
-            color: #000;
-
+        .registration-form button:hover {
+            background: rgb(255, 255, 255);
+            color: black;
         }
-
-        .login-remember {
+        .popup {
             display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            backdrop-filter: blur(8px);
         }
 
-        /* Code Ends */
+        .popup-content {
+            text-align: center;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .blur-background {
+            filter: blur(4px);
+        }
     </style>
 </head>
-
 <body>
-    <div id="main" class="container">
-        <form name="loginform" id="fetchForm" action="/view" method="post" class="wpl-track-me">
-            <p class="login-username">
-                <label for="user_login">Student id</label>
-                <input type="text" name="ID" id="student id" class="input" placeholder="Student ID" value=""
-                    size="20" />
-            </p>
-            <p class="login-password">
-                <label for="user_pass">Mobile no</label><input type="text" name="MobNo" id="mob_no" class="input"
-                    placeholder="Mobile No" value="" size="20" />
-            </p>
-            
-            <p class="login-submit"><input type="submit" name="wp-submit" id="wp-submit" class="button-primary"
-                    value="View Information" />
-                <input type="hidden" name="redirect_to" value="#" />
-            </p>
+     <div class="registration-form" id="registration-form">
+        <h2>View information</h2>
+        <form id="registrationForm" action="/" method="post">
+            <div class="form-group">
+                <div class="col">
+                    <label for="userid">User ID</label>
+                    <input type="text" id="userid" name="ID" required>
+                </div>
+                <div class="col">
+                    <label for="name">Name</label>
+                    <input type="text" id="Name" name="Name" required readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="text" id="MobNo" name="MobNo" required readonly>
+                </div>
+                <div class="col">
+                    <label for="address">Address</label>
+                    <input type="text" id="Address" name="Address" readonly>
+                </div>
+            </div>
+            <!--
+            <div class="form-group">
+                <button type="submit" onclick="openPopup()">Update</button>
+            </div>
+            -->
         </form>
     </div>
-</body>
+       <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()"> &times;</span>
+            <p style="color: black;" >Data Updated Successfully!!</p>
+        </div>
+    </div>
+    <script>
+        /*
+         function openPopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "block";
+            document.querySelector(".registration-form").classList.add("blur-background");
+        }
 
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+           document.querySelector(".registration-form").classList.remove("blur-background");
+            document.getElementById('registrationForm').reset();
+        }
+    */
+      document.getElementById('userid').addEventListener('blur', async function() {
+  const ID = this.value;
+  console.log('ID:', ID);
+
+  if (ID.trim() === '') {
+    document.getElementById('Name').value = '';
+    document.getElementById('MobNo').value = '';
+    document.getElementById('Address').value = '';
+    return;
+  }
+
+  try {
+    const response = await fetch('/fetch-user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userid: ID }) // Ensure `userid` is correctly included
+    });
+
+    console.log('Response Status:', response.status);
+
+    const data = await response.json();
+    console.log('Response Data:', data);
+
+    if (response.ok) {
+      document.getElementById('Name').value = data.Name || '';
+      document.getElementById('MobNo').value = data.MobNo || '';
+      document.getElementById('Address').value = data.Address || '';
+    } else {
+      alert(data.message || 'User not found');
+      document.getElementById('Name').value = '';
+      document.getElementById('MobNo').value = '';
+      document.getElementById('Address').value = '';
+    }
+  } catch (error) {
+    alert('Something went wrong!');
+    document.getElementById('Name').value = '';
+    document.getElementById('MobNo').value = '';
+    document.getElementById('Address').value = '';
+  }
+});
+        </script>
+        </body>
 </html>

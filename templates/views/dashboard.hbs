@@ -1,252 +1,1003 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chart Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
-
+    <title>Document</title>
+    
     <style>
-        body {
-
-            height: auto;
-            margin-top: auto;
-            display: flex;
-            zoom: 85%;
-        }
-
-        .div-container {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .box-div {
-            display: flex;
-            justify-content: space-around;
-            height: 190px;
-            width: 98%;
-            margin-left: 10px;
-            border-radius: 17px;
-            margin-top: 16px;
-        }
-
-        .div1 {
-            background-color: #fff;
-            width: 23.5%;
-            height: auto;
-            margin: 10px;
-            border-radius: 17px;
-            margin-bottom: 20px;
-            /* Add some bottom margin */
-        }
-
-
-
-        .div1 img {
-            width: 20px;
-            height: 20px;
-        }
-
-        .second-div {
-            display: flex;
-            justify-content: space-around;
-            height: 467px;
-            width: 98%;
-            margin-left: 10px;
-            border-radius: 17px;
-            margin-top: 16px;
-        }
-
-        .bar-div {
-            height: 98%;
-            width: 68%;
-            box-shadow: 5px 10px 10px #312c2c;
-
-            background-color: rgb(255, 255, 255);
-            border-radius: 20px;
-            margin-top: 5px;
-        }
-
-        .pie-div {
-            height: 98%;
-            width: 30%;
-            background-color: rgb(255, 255, 255);
-            border-radius: 20px;
-            margin-top: 5px;
-        }
-
-        #myDoughnutChart {
-            height: 20px;
-            width: 50px;
-        }
-
-        .div1 {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            margin: 20px 5px;
-            padding: 20px;
-            border: 1px solid #FFF;
-            border-radius: 8px;
-            max-width: 300px;
-            font-family: 'Times New Roman', Times, serif;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            /* Transition for background-color and box-shadow */
-        }
-
-        .div1:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            border-width: 2px;
-            color: #312c2c;
-            background-color: #F5F5F5;
-             transform: scale(1.02)
-        }
-
-
-
-        .div1 img {
-            width: 50px;
-            height: auto;
-            margin-right: 15px;
-        }
-
-        .div1 .content {
-            text-align: left;
-        }
-
-        .div1 h5 {
-            margin: 0;
-            font-size: 1.2em;
-            margin-bottom: 5px;
-        }
-
-        .div1 p {
-            margin: 0;
-            font-size: 1.5em;
-        }
+      :root {
+    /* Font families */
+    --font-primary: "Poppins", sans-serif;
+    --font-secondary: "Roboto", sans-serif;
+    /* Colors */
+    --dark-bg: #111525;
+    --dark-secondary: #161b2e;
+    --card-bg: #1d2238;
+    --light-purple: #8a7fa4;
+    --turquoise: #44d7b6;
+    --pink: #f56ee1;
+    --white: #ffffff;
+  }
+  
+  /* Global rules */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: var(--dark-bg);
+    color: var(--white);
+    font-family: var(--font-secondary);
+  }
+  
+  body h2,
+  body h3,
+  body h5 {
+    font-family: var(--font-primary);
+  }
+  
+  .grid__stagger {
+    opacity: 0;
+  }
+  
+  .scrollbar__style::-webkit-scrollbar {
+    width: 5px;
+    background-color: #f9a7fa1d;
+  }
+  .scrollbar__style::-webkit-scrollbar-thumb {
+    background-color: #f56ee1;
+    border-radius: 5px;
+  }
+  .scrollbar__style::-webkit-scrollbar-thumb:hover {
+    background-color: #f23ed7;
+  }
+  
+  .sidebar {
+    background: var(--dark-secondary);
+    left: 0;
+    top: 0;
+    height: 100vh;
+    min-width: 200px;
+    padding: 1rem;
+    overflow-y: scroll;
+    position: fixed;
+  
+  }
+  
+  iframe {
+    border: none;
+    width: 100%;
+    height: 700px;
+  }
+  .sidebar__profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 2rem 0;
+  }
+  .sidebar__profile__img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  .sidebar__profile__data {
+    display: flex;
+    gap: 10px;
+    margin-top: 7px;
+    font-size: 0.9rem;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.2);
+  }
+  .sidebar__profile__data__icon {
+    color: var(--light-purple);
+    font-size: 0.8rem;
+    line-height: 1rem;
+    cursor: pointer;
+  }
+  .sidebar__title {
+    font-size: 1.7rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+  .sidebar__title span {
+    font-size: 0.6rem;
+    color: var(--light-purple);
+    font-style: italic;
+  }
+  .sidebar__button {
+    width: 100%;
+    border-radius: 20px;
+    background-image: linear-gradient(to right, #f356dc, #ae6ef5);
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 0.3px;
+    position: relative;
+    margin-top: 30px;
+    background-size: 200%;
+    transition: all 0.3s;
+  }
+  .sidebar__button:hover {
+    background-size: 100%;
+    transition: all 0.3s;
+    scale: 1.02;
+  }
+  .sidebar__button:active {
+    transform: translatey(2px);
+  }
+  .sidebar__button span {
+    padding-left: 8px;
+  }
+  .sidebar__button i {
+    position: absolute;
+    right: 15px;
+  }
+  
+  .sidebarNav__list {
+    list-style: none;
+  }
+  .sidebarNav__item {
+    margin-top: 2rem;
+    list-style-type: none;
+  }
+  .sidebarNav__link {
+    color: var(--white);
+    text-decoration: none;
+    position: relative;
+    display: block;
+  }
+  .sidebarNav__text, .sidebarNav__icon {
+    color: var(--pink);
+    cursor: pointer;
+  }
+  .sidebarNav__icon {
+    font-size: 1.3rem;
+    margin-right: 5px;
+  }
+  .sidebarNav__iconSizeCustomer {
+    font-size: 1.1rem;
+  }
+  .sidebarNav__iconSizeChannels {
+    font-size: 1.2rem;
+  }
+  .sidebarNav__text {
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  .sidebarNav__switch {
+    position: absolute;
+    right: 0;
+    top: 1px;
+    color: var(--light-purple);
+  }
+  .sidebarNav__divider {
+    margin-top: 20px;
+    width: 100%;
+    height: 1px;
+    background: var(--light-purple);
+    opacity: 0.3;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .submenu {
+    list-style: none;
+    margin: 0.7rem 0;
+  }
+  .submenu__item {
+    position: relative;
+    padding: 0.8rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+  }
+  .submenu__item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right, #f56ee1, #ae6ef5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 10px;
+    pointer-events: none;
+  }
+  .submenu__item:active {
+    transform: translatey(2px);
+    transition: transform 0.3s;
+  }
+  .submenu__item:hover {
+    color: #000;
+  }
+  .submenu__item:hover::after {
+    opacity: 1;
+  }
+  .submenu__link {
+    color: var(--white);
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /***********
+  SIDEBAR END
+  ************/
+  /***********
+  DASHBOARD
+  ************/
+  .dashboard {
+    display: flex;
+  }
+  .dashboard__content {
+    height: 100vh;
+    margin-left: 270px;
+  }
+  .dashboard__content__title {
+    padding: 1.5rem 0;
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .dashboard__grid {
+    display: grid;
+    grid-template-areas: "dateRange region channel salesData" "totalCustomer orders salesVolume increase" "messageBox messageBox productCategories productCategories" "salesFigure salesFigure salesChart salesChart";
+    grid-template-columns: repeat(4, 260px);
+    align-items: center;
+    padding-bottom: 50px;
+    gap: 20px;
+  }
+  .dashboard__grid #statistic-time {
+    grid-area: dateRange;
+  }
+  .dashboard__grid #statistic-region {
+    grid-area: region;
+  }
+  .dashboard__grid #statistic-channel {
+    grid-area: channel;
+  }
+  .dashboard__grid #customerInfo {
+    grid-area: newCustomers;
+  }
+  .dashboard__grid #salesData {
+    grid-area: salesData;
+  }
+  .dashboard__grid #totalCustomer {
+    grid-area: totalCustomer;
+  }
+  .dashboard__grid #orders {
+    grid-area: orders;
+  }
+  .dashboard__grid #salesVolume {
+    grid-area: salesVolume;
+  }
+  .dashboard__grid #increase {
+    grid-area: increase;
+  }
+  .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    height: 350px;
+  }
+  .dashboard__grid #data-chartOne h3,
+  .dashboard__grid #data-chartTwo h3,
+  .dashboard__grid #data-chartThree h3 {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .dashboard__grid #messageBox {
+    grid-area: messageBox;
+  }
+  .dashboard__grid #data-chartOne {
+    grid-area: salesFigure;
+  }
+  .dashboard__grid #data-chartOne #line-chart {
+    padding: 1rem;
+    margin-top: 10px;
+  }
+  .dashboard__grid #data-chartTwo {
+    grid-area: productCategories;
+  }
+  .dashboard__grid #data-chartTwo #doughnut {
+    margin: 10px 0 0 20px;
+  }
+  .dashboard__grid #data-chartThree {
+    grid-area: salesChart;
+  }
+  .dashboard__grid #data-chartThree #polar-area-chart {
+    margin-top: 10px;
+    padding: 1rem;
+  }
+  
+  .dashboard__grid__selectLabel {
+    font-size: 0.8rem;
+    height: 80px;
+    color: var(--pink);
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
+    padding: 1rem 1.2rem;
+    border-radius: 15px;
+    border: none;
+  }
+  .dashboard__grid__selectLabel__select {
+    margin: 10px 0;
+    width: 90%;
+    background: transparent;
+    color: var(--white);
+    border: none;
+  }
+  
+  .sales__data {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .sales__data__profit, .sales__data__margin {
+    position: relative;
+    background: var(--card-bg);
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 0 0.8rem;
+    align-items: center;
+    border-radius: 15px;
+    height: 35px;
+  }
+  .sales__data__profit__icon, .sales__data__margin__icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+  }
+  .sales__data__profit__result, .sales__data__margin__result {
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.65rem;
+    position: absolute;
+    right: 30px;
+  }
+  .sales__data__profit {
+    margin-bottom: 10px;
+  }
+  .sales__data__profit__icon {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+  }
+  .sales__data__profit__result {
+    background: #7b67ff;
+  }
+  .sales__data__margin__icon {
+    background: linear-gradient(135deg, #03a9f4, #00bcd4);
+  }
+  .sales__data__margin__result {
+    background: #29bf9d;
+  }
+  
+  .dashboard__grid__salesFigures {
+    position: relative;
+    height: 170px;
+    padding: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    font-weight: bold;
+  }
+  .dashboard__grid__salesFigures__salesValues {
+    font-family: var(--font-primary);
+    text-align: center;
+    font-size: 2.5rem;
+    border-radius: 10px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+  }
+  .dashboard__grid__salesFigures__growth {
+    font-size: 4rem;
+    margin-top: 8px;
+  }
+  .dashboard__grid__salesFigures__winOrLoose {
+    text-align: center;
+    font-size: 0.7rem;
+  }
+  .dashboard__grid__salesFigures__winOrLoose i {
+    padding-left: 3px;
+  }
+  .dashboard__grid__salesFigures__period {
+    margin-top: 20px;
+    font-weight: 400;
+    font-size: 0.8rem;
+  }
+  
+  .card-purple {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+    color: white;
+  }
+  
+  .card-blue {
+    background: linear-gradient(135deg, #03a9f4, #00bcd4);
+    color: white;
+  }
+  
+  .message__center {
+    background: var(--card-bg);
+    height: 350px;
+    border-radius: 15px;
+    padding: 1rem 1.5rem 1rem 1.5rem;
+  }
+  .message__center__line {
+    height: 0.5px;
+    width: 95%;
+    background: var(--pink);
+    margin: auto;
+    opacity: 0.4;
+  }
+  .message__center__title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .message__center__img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  .message__center__container {
+    overflow-y: scroll;
+    height: 250px;
+    margin: 20px auto;
+  }
+  .message__center__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.7rem;
+  }
+  .message__center__message {
+    font-size: 0.7rem;
+  }
+  .message__center__message__from {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    display: inline-block;
+    color: var(--pink);
+  }
+  .message__center__message__text {
+    display: block;
+    width: 90%;
+  }
+  .message__center__message__question, .message__center__message__done {
+    border-radius: 15px;
+    border: none;
+    padding: 0.5rem;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.6rem;
+  }
+  .message__center__message__question {
+    background: #7b67ff;
+  }
+  .message__center__message__done {
+    background: #29bf9d;
+  }
+  .message__center__message__timeDate {
+    font-size: 0.6rem;
+    font-style: italic;
+    opacity: 0.6;
+  }
+  
+  .addMoreChartsBtn {
+    text-align: center;
+    display: block;
+    opacity: 1;
+    margin-top: 20px;
+    padding-bottom: 50px;
+  }
+  .addMoreChartsBtn:active {
+    transform: translateY(2px);
+  }
+  .addMoreChartsBtn i {
+    background: linear-gradient(135deg, #9c27b0, #e040fb);
+    font-size: 3rem;
+    -webkit-background-clip: text;
+    color: transparent;
+    display: inline-block;
+  }
+  .addMoreChartsBtn i:hover {
+    transform: rotate(90deg);
+  }
+  
+  @media (min-width: 1750px) {
+    .dashboard__grid {
+      grid-template-areas: "dateRange region channel salesData salesFigure" "totalCustomer orders salesVolume increase salesFigure" "messageBox messageBox productCategories productCategories salesChart";
+      justify-content: center;
+      grid-template-columns: repeat(4, 250px);
+      margin-top: 30px;
+      padding: 0;
+    }
+    .dashboard__grid .message__center,
+  .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+      height: 280px;
+    }
+    .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartThree {
+      width: 400px;
+    }
+    .dashboard__grid #data-chartOne #line-chart {
+      padding: 0;
+      margin-top: 0.5rem;
+    }
+    .dashboard__grid #data-chartTwo #doughnut {
+      margin-top: -10px;
+      transform: scale(0.85);
+    }
+    .dashboard__grid #data-chartThree {
+      margin: 0;
+    }
+    .dashboard__grid #data-chartThree #polar-area-chart {
+      padding: 0;
+      margin-top: 1rem;
+    }
+  
+    .message__center__container {
+      height: 185px;
+    }
+  
+    .addMoreChartsBtn {
+      margin-top: 40px;
+    }
+  }
+  @media (max-width: 1380px) {
+    .dashboard__grid {
+      grid-template-areas: "dateRange region" "channel salesData" "totalCustomer orders" "salesVolume increase" "messageBox messageBox" "productCategories productCategories" "salesFigure salesFigure" "salesChart salesChart";
+      grid-template-columns: repeat(2, 350px);
+    }
+    .dashboard__grid #data-chartOne,
+  .dashboard__grid #data-chartTwo,
+  .dashboard__grid #data-chartThree {
+      height: 410px;
+    }
+    .dashboard__grid .message__center__container {
+      width: 90%;
+    }
+  }
+  @media (min-width: 320px) and (max-width: 950px) {
+    .dashboard__grid {
+      grid-template-columns: repeat(2, 250px);
+    }
+  }
     </style>
 </head>
-
 <body>
-    <div class="div-container">
-        <div class="box-div">
-
-            <div class="div1">
-                <img src="/like.png" alt="">
-                <div class="content">
-                    <h5>Total Admission</h5>
-                    <p id="total">{{totalStudentCount}}</p>
-                </div>
+    <main class="dashboard__content">
+        <h3 class="dashboard__content__title"> Dashboard Sumary</h3>
+        <div class="dashboard__grid">
+          <!-- ROW ONE --
+          <label class="dashboard__grid__selectLabel grid__stagger" id="statistic-time">
+           <!-- Auto range:
+            <select class="dashboard__grid__selectLabel__select" name="time">
+              <option value="month">Month</option>
+              <option value="year">Year</option>
+              <option value="allTime">All</option>
+            </select> -
+          </label>
+          <label class="dashboard__grid__selectLabel grid__stagger" id="statistic-region">
+            Region:
+            <select class="dashboard__grid__selectLabel__select" name="region" style="margin-top: 10px">
+              <option value="usa">USA</option>
+              <option value="emea">EMEA</option>
+              <option value="allRegions">All regions</option>
+            </select>
+          </label>
+          <label class="dashboard__grid__selectLabel grid__stagger" id="statistic-channel">Sales channel:
+            <select class="dashboard__grid__selectLabel__select" name="channel">
+              <option value="allChannel">All Channels</option>
+              <option value="field">Field Sales</option>
+              <option value="web">Online</option>
+              <option value="hotline">Customer Hotline</option>
+            </select>
+          </label>
+          <div class="sales__data grid__stagger" id="salesData">
+            <div class="sales__data__profit">
+              <span class="sales__data__profit__icon">
+                <i class="fa-solid fa-coins"></i>
+              </span><span class="sales__data__profit__text">Profit</span><span class="sales__data__profit__result">+ 7%</span>
             </div>
-
-            <div class="div1">
-                <img src="/portal.png" alt="">
-                <div class="content">
-                    <h5>Registrations</h5>
-                    <p id="total">{{totalStudentsCurrentMonth}}</p>
-                </div>
+            <div class="sales__data__margin">
+              <span class="sales__data__margin__icon"><i class="fa-solid fa-percent"></i></span><span class="sales__data__margin__text">Margin</span><span class="sales__data__margin__result">+ 14%</span>
             </div>
-
-            <!--<div class="div1">
-                <img src="/money-bag.png" alt="">
-                <div class="content">
-                    <h5>PAPER FEE</h5>
-                    <p id="total"></p>
-                </div>
-            </div>-->
-            <div class="div1">
-                <img src="3d-credit-card.png" alt="">
-                <div class="content">
-                    <h5>Pending FEE</h5>
-                    <p id="total"></p>
-                </div>
+          </div>
+          -->
+    
+          <!-- ROW TWO SALES FIGURES, MESSAGE -->
+          <div class="dashboard__grid__salesFigures card-purple grid__stagger" id="totalCustomer">
+            <h5 class="dashboard__grid__salesFigures__title">Total Registrations</h5>
+            <p class="dashboard__grid__salesFigures__salesValues"><span class="animatedCount">{{totalOwnerCount}} </span></p>
+            <p class="dashboard__grid__salesFigures__winOrLoose">Registrations<i class="fa-solid fa-thumbs-up"></i></p>
+            <p class="dashboard__grid__salesFigures__period">vs previous 30 days days</p>
+          </div>
+          <div class="dashboard__grid__salesFigures card-blue grid__stagger" id="orders">
+            <h5 class="dashboard__grid__salesFigures__title">Total Vehical Registrations</h5>
+            <p class="dashboard__grid__salesFigures__salesValues"><span class="animatedCount">{{totalVehicalCount}}</span></p>
+            <p class="dashboard__grid__salesFigures__winOrLoose">Registrations <i class="fa-solid fa-thumbs-down"></i></p>
+            <p class="dashboard__grid__salesFigures__period">vs previous 30 days days</p>
+          </div>
+          <!--
+          <div class="dashboard__grid__salesFigures card-purple grid__stagger" id="salesVolume">
+            <h5 class="dashboard__grid__salesFigures__title">Average Contract</h5>
+            <p class="dashboard__grid__salesFigures__salesValues">673</p>
+            <p class="dashboard__grid__salesFigures__winOrLoose">12% <i class="fa-solid fa-thumbs-up"></i></p>
+            <p class="dashboard__grid__salesFigures__period">vs previous 30 days days</p>
+          </div>
+          <div class="dashboard__grid__salesFigures card-blue grid__stagger" id="increase">
+            <h5 class="dashboard__grid__salesFigures__title">Growth Rate</h5>
+            <p class="dashboard__grid__salesFigures__salesValues dashboard__grid__salesFigures__growth"><span class="animatedCount">12%</span></p>
+          </div>
+          
+          <div class="message__center grid__stagger" id="messageBox">
+            <h3 class="message__center__title">Messages:</h3>
+            <div class="message__center__container scrollbar__style">
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Agnes.jpg" alt="Unsplash - Christina @ wocintechchat.com" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Agnes (Customer Support)</span>
+                  <span class="message__center__message__timeDate">Today 18:17 am</span>
+                  <span class="message__center__message__text">Please call Jonathan James from Fluid back. He has an urgent query regarding his order</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Jonny.jpg" alt="Unsplash - Ransford Quaye" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Jonny (Sales Support)</span>
+                  <span class="message__center__message__timeDate">Today 15:33 pm</span>
+                  <span class="message__center__message__text">The order from Dubidor Inc. is awaiting approval. Please check the details again and call back</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Amy.jpg" alt="Unsplash - Joel Mott" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Amy (Field Sales)</span>
+                  <span class="message__center__message__timeDate">Today 16:23 pm</span>
+                  <span class="message__center__message__text">The customer Rohmeyer would like an appointment with both of us. Please call back</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Julia.jpg" alt="Unsplash - Jake Nackos" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Julia (Field Sales)</span>
+                  <span class="message__center__message__timeDate">Yesterday 10:37 am</span>
+                  <span class="message__center__message__text">The customer Amsora received its advertising subsidy in July. I sent him the payment receipt</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Jason.jpg" alt="Unsplash - Albert Dera" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Jason (Customer Support)</span>
+                  <span class="message__center__message__timeDate">Yesterday 08:03 am</span>
+                  <span class="message__center__message__text">
+                    The customer Appencell has canceled the appointment for August. He asks to call back to set a new appointment</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/Luna.jpg" alt="Unsplash - Christopher Campbell" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Luna (Field Sales)</span>
+                  <span class="message__center__message__timeDate">14.11 - 14:49 pm</span>
+                  <span class="message__center__message__text">Hi Julia, haven't heard from you in a long time. If you have time and feel like it, let's have lunch later?</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
+              <div class="message__center__line"></div>
+              <div class="message__center__wrapper">
+                <img src="https://assets.codepen.io/1610873/christopher.jpg" alt="Unsplash - Radu Florin" class="message__center__img">
+                <p class="message__center__message">
+                  <span class="message__center__message__from">Christopher (Accounting)</span>
+                  <span class="message__center__message__timeDate">07.11 - 11:15 am</span>
+                  <span class="message__center__message__text">
+                    I have a question about Novatil Invest and the discount granted for the two invoices from December</span>
+                </p>
+                <button class="message__center__message__question">Reply</button>
+                <button class="message__center__message__done">Done</button>
+              </div>
             </div>
-
-
-            <div class="div1">
-
-            </div>
-            <div class="div1">
-
-            </div>
-
+          </div>
+    -->
+          <!-- ROW THREE CHARTS-->
+          <div id="data-chartOne" class="grid__stagger">
+            <h3>Vehical Registrations  by month:</h3>
+            <canvas id="line-chart"></canvas>
+          </div>
+          <div id="data-chartTwo" class="grid__stagger">
+            <h3> Vehical categories:</h3>
+            <canvas id="doughnut"></canvas>
+          </div>
+          <div id="data-chartThree" class="grid__stagger">
+            <h3>Vehical categories:</h3>
+            <canvas id="polar-area-chart"></canvas>
+          </div>
         </div>
-        <div class="second-div">
-            <div class="bar-div">
-
-                <canvas id="myBarChart"></canvas>
-            </div>
-            <div class="pie-div">
-                <canvas id="myDoughnutChart"></canvas>
-            </div>
+        <div class="addMoreChartsBtn">
+          <i class="fa-solid fa-circle-plus"></i>
         </div>
-    </div>
-    <script>
+      </main>
 
-        // Assuming the server side passes the data correctly to these variables
-        const doughnutLabels = {{ json doughnutLabels }};
-        const doughnutValues = {{ json doughnutValues }};
-        const barLabels = {{ json barLabels }};
-        const barValues = {{ json barValues }};
+      <script src='https://unpkg.co/gsap@3/dist/gsap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2'></script>
+<script>
+// Store sidebar timelines
+let sidebarTimelines = {};
 
-        // Doughnut Chart
-        const doughnutCtx = document.getElementById('myDoughnutChart').getContext('2d');
-        const myPieChart = new Chart(doughnutCtx, {
-            type: 'pie', // Change type to 'pie'
-            data: {
-                labels: doughnutLabels,
-                datasets: [{
-                    label: 'Number of Students',
-                    data: doughnutValues,
-                    backgroundColor: [
-                        'rgb(50, 89, 240)', // Segment 1 background color
-                        'rgb(54, 162, 235)', // Segment 2 background color
-                        'rgb(255, 205, 86)', // Segment 3 background color
-                        'rgb(25, 205, 86)', // Segment 4 background color
-                        'rgb(255, 25, 86)'
-                    ],
-                    borderColor: [
-                        'rgb(0, 0, 0)',
-                    ],
-                    borderWidth: 0.5
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                // Other options...
+document.addEventListener("DOMContentLoaded", () => {
+/*******************
+SIDEBAR ANIMATIONS
+*******************/
+  // Select all sidebar navigation switches for interaction
+  const toggleSubmenu = document.querySelectorAll(".sidebarNav__switch");
+  // Iterate over each submenu switch to set up individual animations
+  toggleSubmenu.forEach((submenuSwitch) => {
+    // Retrieve the unique identifier for each submenu
+    const menuValue = submenuSwitch.getAttribute("data-sidebar");
+    // Select the corresponding submenu DOM element
+    const submenuWrapper = document.querySelector(
+      `.submenu[data-sidebar='${menuValue}']`
+    );
+
+    // Initialize with closed state for certain tabs
+    const shouldBeClosedByDefault = submenuWrapper.classList.contains(
+      "closed-by-default"
+    );
+
+    // Initialize GSAP timeline for each submenu, starting in a paused state
+    sidebarTimelines[menuValue] = gsap.timeline({ paused: true });
+
+    // Check if the submenu should be closed initially
+    if (shouldBeClosedByDefault) {
+      // Configure animation: start closed (hidden) and animate to open (visible)
+      sidebarTimelines[menuValue]
+        .fromTo(submenuWrapper, { autoAlpha: 0, height: 0 }, { height: "auto" })
+        .to(submenuWrapper, { autoAlpha: 1, ease: "slow(0.7,0.7,false)" });
+    } else {
+      // Configure animation: start open (visible) and animate to closed (hidden)
+      sidebarTimelines[menuValue]
+        .fromTo(
+          submenuWrapper,
+          { autoAlpha: 1 },
+          { autoAlpha: 0, ease: "slow(0.7,0.7,false)" }
+        )
+        .to(submenuWrapper, { height: 0 });
+    }
+
+    // Add click event listener to each submenu switch
+    submenuSwitch.addEventListener("click", (e) => {
+      e.preventDefault();
+      toggleSidebarAnimation(menuValue);
+    });
+  });
+
+  // Function to toggle the animation of a given submenu
+  function toggleSidebarAnimation(menuValue) {
+    const tl = sidebarTimelines[menuValue];
+
+    // Play or reverse based on the current progress
+    if (tl.progress() === 1) {
+      tl.reverse();
+    } else {
+      tl.play();
+    }
+  }
+
+/*******************
+SIDEBAR ANIMATIONS END
+*******************/
+
+/*******************
+Dahboard Stagger animation
+*******************/
+  gsap.fromTo(
+    ".grid__stagger",
+    { y: 10, opacity: 0 },
+    { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, ease: "power1.in" }
+  );
+  gsap.fromTo(
+    ".addMoreChartsBtn",
+    { autoAlpha: 0 },
+    { autoAlpha: 1, delay: 2.5, duration: 0.5, ease: "power1.in" }
+  );
+
+
+/*******************
+Chart.js
+*******************/
+
+  // Chart One
+  const ctx = document.getElementById("line-chart").getContext("2d");
+  const myLineChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: ["January", "February", "March", "April", "May", "June"],
+      datasets: [
+        {
+          label: "Current period",
+          backgroundColor: "rgb(68, 215, 182)",
+          borderColor: "#44d7b6",
+          data: [70, 100, 130, 120, 180, 100],
+          fill: false,
+          borderWidth: 2
+        },
+        {
+          label: "Previous year",
+          backgroundColor: "rgb(77, 91, 158)",
+          borderColor: "#4d5b9e",
+          data: [50, 140, 50, 220, 160, 180],
+          fill: false,
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            padding: 20,
+            usePontstyle: true
+          }
+        }
+      }
+    }
+  });
+
+  // Chart Two
+  const ctx2 = document.getElementById("doughnut").getContext("2d");
+  const myDoughnutChart = new Chart(ctx2, {
+    type: "doughnut",
+    data: {
+      labels: ["Advertising", "Market Research", "Strategy", "Consulting"],
+      datasets: [
+        {
+          label: "My second dataset",
+          backgroundColor: [
+            "rgba(245, 110, 225, .3)",
+            "rgba(68, 215, 182, .5)",
+            "rgba(77, 91, 158, .5)",
+            "rgb(75, 192, 192)"
+          ],
+          data: [12, 19, 3, 5]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      mainAspectRatio: true,
+      aspectRatio: 2,
+      layout: {
+        padding: {
+          top: -100
+        }
+      },
+      plugins: {
+        datalabels: {
+          color: "#fff",
+          textAlign: "center",
+          font: {
+            weight: "bold",
+            family: 'Poppins", sans-serif'
+          }
+        },
+        legend: {
+          labels: {
+            color: "#fff",
+            font: {
+              size: 12,
             }
-        });
+          },
+          position: "left",
+          display: true
+        },
+        title: {
+          display: false
+        },
+        tooltip: {
+          enable: true
+        }
+      }
+    }
+  });
 
+  // Use Function to update the Doughnut Font Size
+  updateFontSize(myDoughnutChart);
 
+  // Add event listener to react to size updates
+  window.addEventListener("resize", () => {
+    updateFontSize(myDoughnutChart);
+  });
 
-        const barCtx = document.getElementById('myBarChart').getContext('2d');
-        const myBarChart = new Chart(barCtx, {
-            type: 'bar',
-            data: {
-                labels: barLabels, // Corrected to use barLabels
-                datasets: [{
-                    label: 'Number of Students Registered',
-                    data: barValues, // Corrected to use barValues
-                    backgroundColor: 'rgb(54, 162, 235)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
+  // Chart Three
+  const ctx3 = document.getElementById("polar-area-chart").getContext("2d");
 
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+  const myPolarAreaChart = new Chart(ctx3, {
+    type: "bar",
+    data: {
+      labels: ["Advertising", "Research", "Strategy", "Consulting"],
+      datasets: [
+        {
+          label: "Current Period",
+          backgroundColor: "#44d7b6",
+          borderColor: "#161b2e",
+          borderWidth: 1,
+          data: [50, 100, 150, 200]
+        },
+        {
+          label: "Previuos year",
+          backgroundColor: "#6c5dd3",
+          borderColor: "#4d5b9e",
+          borderWidth: 1,
+          data: [80, 120, 120, 160]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            size: 16,
+            color: "#a4a4a4"
+          }
+        }
+      }
+    }
+  });
+});
 
-    </script>
+// Update function for Chart2 for bigger Screens
+function updateFontSize(ctx) {
+  const setFontSize = window.innerWidth > 1450 ? 18 : 16;
+
+  ctx.options.plugins.legend.labels.font.size = setFontSize;
+  ctx.update();
+}
+</script>
 </body>
-
 </html>

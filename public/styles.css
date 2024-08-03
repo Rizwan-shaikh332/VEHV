@@ -1,0 +1,68 @@
+/* public/styles.css */
+
+/* Styles for notifications */
+.notifications {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notifications h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  
+  .notifications-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .notification {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .notification.approaching {
+    border-color: #ffb74d;
+  }
+  
+  .notification.expired {
+    border-color: #e57373;
+  }
+  
+  .notification-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .notification-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .notification-id {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .notification-name {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .notification-status {
+    font-size: 14px;
+    color: #777;
+  }
+  

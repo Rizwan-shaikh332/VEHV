@@ -1,109 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Registration Form</title>
-
-        <!-- Font Icon -->
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap">
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-        <style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #e8e8e8;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            background: #161b2e;
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            color: #fff;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+            margin: 0;
         }
-
-        .signup {
-            background: #fff;
-            padding: 40px;
+        .registration-form {
+            background: linear-gradient(135deg, #03a9f4, #f56ee1);
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 70%;
-            max-width: 800px;
+            width: 600px;
         }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-weight: bold;
+        .registration-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
         }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 12px;
-        }
-
         .form-group {
-            flex: 1;
+            display: flex;
+            justify-content: space-between;
             margin-bottom: 15px;
         }
-
         .form-group label {
             display: block;
-            margin-bottom: 8px;
             font-weight: bold;
-            color: #555;
+            margin-bottom: 5px;
         }
-
-        .form-input,
-        .select-list select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #3498db;
-            border-radius: 5px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-
-        .form-input:focus,
-        .select-list select:focus {
-            border-color: #2980b9;
-        }
-
-        .form-text {
-            margin-top: 0px;
-        }
-
-        .form-submit {
-            background: #3498db;
-            color: #fff;
-            padding: 10px 15px;
+        .form-group input {
+            width: 95%;
+            padding: 8px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
+        }
+        .form-group .col {
+            width: 48%;
+        }
+        .registration-form button {
+            width: 48%;
+            padding: 10px;
+            background: #161b2e;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
             font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-right: 2%;
         }
-
-        .form-submit:hover {
-            background: #2980b9;
+        .registration-form button:hover {
+            background: rgb(255, 255, 255);
+            color: black;
         }
-
-        .ui-datepicker {
-            font-size: 14px;
-        }
-
         .popup {
             display: none;
             position: fixed;
@@ -134,287 +94,87 @@
         .blur-background {
             filter: blur(4px);
         }
-
-        #photo-preview {
-            display: none;
-            margin-top: 10px;
-            width: 50px;
-            height: 50px;
-            border: 1px solid #ddd;
-            padding: 5px;
-            border-radius: 5px;
-            object-fit: cover;
-        }
-
-        /* for radio button */
-        .wrapper {
-            display: inline-flex;
-            background: #fff;
-            height: 30px;
-            width: 300px;
-            align-items: center;
-            justify-content: space-evenly;
-            border-radius: 5px;
-            padding: 20px 15px;
-            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .wrapper .option {
-            background: #fff;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            margin: 0 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            padding: 0 10px;
-            border: 2px solid lightgrey;
-            transition: all 0.3s ease;
-        }
-
-        .wrapper .option .dot {
-            height: 20px;
-            width: 20px;
-            background: #d9d9d9;
-            border-radius: 50%;
-            position: relative;
-        }
-
-        .wrapper .option .dot::before {
-            position: absolute;
-            content: "";
-            top: 4px;
-            left: 4px;
-            width: 12px;
-            height: 12px;
-            background: #0069d9;
-            border-radius: 50%;
-            opacity: 0;
-            transform: scale(1.5);
-            transition: all 0.3s ease;
-        }
-
-        input[type="radio"] {
-            display: none;
-        }
-
-        #option-1:checked:checked~.option-1,
-        #option-2:checked:checked~.option-2 {
-            border-color: #0069d9;
-            background: #0069d9;
-        }
-
-        #option-1:checked:checked~.option-1 .dot,
-        #option-2:checked:checked~.option-2 .dot {
-            background: #fff;
-        }
-
-        #option-1:checked:checked~.option-1 .dot::before,
-        #option-2:checked:checked~.option-2 .dot::before {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .wrapper .option span {
-            font-size: 20px;
-            color: #808080;
-        }
-
-        #option-1:checked:checked~.option-1 span,
-        #option-2:checked:checked~.option-2 span {
-            color: #fff;
-        }
     </style>
-    </head>
-
-    <body>
-        <section class="signup">
-            <div class="container">
-                <div class="signup-content">
-                    <form method="post" action="/register" id="signup-form"class="signup-form" enctype="multipart/form-data" onsubmit="submitForm(event)">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="ID">Student ID</label>
-                                <input type="text" class="form-input" name="ID"
-                                    id="ID" value="{{plus1}}" readonly />
-                                <label for="Name">Full Name</label>
-                                <input type="text" class="form-input"
-                                    name="Name" id="Name" required />
-                                <label for="MobNo">Mobile Number</label>
-                                <input type="text" class="form-input"
-                                    name="MobNo" id="MobNo" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="AddmissionDate">Add Date</label>
-                                <input type="date" class="form-input"
-                                    name="SAddmissionDate" id="add_date"
-                                    placeholder="DD-MM-YYYY" />
-                                <label for="EndDate">End Date</label>
-                                <input type="date" class="form-input"
-                                    name="EAddmissionDate" id="end_date"
-                                    placeholder="DD-MM-YYYY" />
-                                <div class="form-group">
-                                    <label for="Type">Add / Fresh</label>
-                                    <div class="select-list">
-                                        <select name="Type" id="Type" required>
-                                            <option value>Select</option>
-                                            <option value="DAY">READING
-                                                DAY</option>
-                                            <option value="NIGHT">READING
-                                                NIGHT</option>
-                                            <option value="DAY/NIGHT">READING
-                                                DAY/NIGHT</option>
-                                            <option value="FIXED SEAT">READING
-                                                FIXED SEAT</option>
-                                            <option
-                                                value="TYPING">TYPING</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="Photo">Photo</label>
-                                <label for="Photo" class="photo-label">
-                                    <input type="file" class="form-input"
-                                        name="photo" id="Photo" accept="image/*" onchange="previewImage(event)" required />
-                                    <img id="photo-preview" />
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <div class="wrapper">
-                                    <input type="radio" name="gender"
-                                        id="option-1" value="Male" checked>
-                                    <input type="radio" name="gender"
-                                        id="option-2" value="Female">
-                                    <label for="option-1"
-                                        class="option option-1">
-                                        <div class="dot"></div>
-                                        <span>Male</span>
-                                    </label>
-                                    <label for="option-2"
-                                        class="option option-2">
-                                        <div class="dot"></div>
-                                        <span>Female</span>
-                                    </label>
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="Total">Total Fees</label>
-                                <input type="text" class="form-input"
-                                    name="Total" id="Total" required />
-                            </div>
-                            <div class="form-group">
-                                <label for="Deposite">Deposited Fee</label>
-                                <input type="text" class="form-input"
-                                    name="Deposite" id="Deposite"
-                                    onblur="Pendingfee()"
-                                    required />
-                            </div>
-                            <div class="form-group">
-                                <label for="Pending">Pending Fees</label>
-                                <input type="text" class="form-input"
-                                    name="Pending" id="Pending" readonly />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-submit" type="submit"
-                                value="Submit" onclick="openPopup()">
-                            <input type="reset" class="form-submit"
-                                value="Reset" />
-                        </div>
-
-                    </form>
+</head>
+<body>
+    <div class="registration-form" id="registration-form">
+        <h2>Register</h2>
+        <form id="registrationForm" action="/register" method="post">
+            <div class="form-group">
+                <div class="col">
+                    <label for="userid">User ID</label>
+                    <input type="text" id="userid" name="ID" value="{{plus1}}" required readonly>
+                </div>
+                <div class="col">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="Name" required>
                 </div>
             </div>
-        </section>
-        <div id="popup" class="popup">
-            <div class="popup-content">
-               <a href="/register" <span class="close" onclick="closePopup()">&times;</span>  </a>
-                <p>Data Submitted Successfully!!</p>
+            <div class="form-group">
+                <div class="col">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="text" id="mobile" name="MobNo" required>
+                </div>
+                <div class="col">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="Address">
+                </div>
             </div>
+            <div class="form-group">
+                <button type="submit" onclick="openPopup()">Submit</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()"> &times;</span>
+            <p style="color: black;" >Data Submitted Successfully!!</p>
         </div>
-        <script>
+    </div>
+
+    <script>
         function openPopup() {
             var popup = document.getElementById("popup");
             popup.style.display = "block";
-            document.querySelector(".signup").classList.add("blur-background");
+            document.querySelector(".registration-form").classList.add("blur-background");
         }
 
         function closePopup() {
             var popup = document.getElementById("popup");
             popup.style.display = "none";
-            document.querySelector(".signup").classList.remove("blur-background");
-            document.getElementById('signup-form').reset();
-            document.getElementById('photo-preview').style.display = 'none'; // Hide image preview on reset
-        }
+            document.querySelector(".registration-form").classList.remove("blur-background");
+            document.getElementById('registrationForm').reset();
 
-       /* $(document).ready(function () {
-            $("#add_date").datepicker({
-                dateFormat: "dd-mm-yy",
-                showButtonPanel: true,
-                changeMonth: true,
-                changeYear: true
-            });
-
-            $("#end_date").datepicker({
-                dateFormat: "dd-mm-yy",
-                showButtonPanel: true,
-                changeMonth: true,
-                changeYear: true
-            });
-        });*/
-
-        function Pendingfee() {
-            var Totalfee = document.getElementById('Total').value;
-            var Deposite = document.getElementById('Deposite').value;
-
-            var totalfeeValue = parseInt(Totalfee, 10);
-            var depositeValue = parseInt(Deposite, 10);
-
-            if (!isNaN(totalfeeValue) && !isNaN(depositeValue)) {
-                var pending = totalfeeValue - depositeValue;
-
-                if (pending > 0) {
-                    document.getElementById('Pending').value = pending;
-                } else if (pending < 0) {
-                    document.getElementById('Pending').value = "ENTER A PROPER VALUE";
-                } else {
-                    document.getElementById('Pending').value = "0000";
+            // Make an AJAX request to the /register route
+            fetch('/register', {
+                headers: {
+                    'Accept': 'application/json'
                 }
-            } else {
-                document.getElementById('Pending').value = "Invalid input";
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Assuming the server sends back a JSON response with the updated plus1 value
+                var updatedID = data.plus1;
+                console.log(updatedID);
+                // Update the input field or any element with the new ID
+                document.getElementById('userid').value = updatedID;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById('mobile').addEventListener('input', function (e) {
+            var mobileInput = e.target;
+            if (mobileInput.value.length > 10) {
+                mobileInput.value = mobileInput.value.slice(0, 10);
             }
-        }
-
-        function submitForm(event) {
-            event.preventDefault();
-
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
-
-            console.log(data);
-            event.target.submit();
-        }
-
-        function previewImage(event) {
-            var reader = new FileReader();
-            reader.onload = function () {
-                var output = document.getElementById('photo-preview');
-                output.src = reader.result;
-                output.style.display = 'block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
+        });
     </script>
-    </body>
-
+</body>
 </html>

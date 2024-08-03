@@ -11,15 +11,16 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 app.use(express.static("public"));
 
+const { sendSmsToOwner, scheduleDailyNotifications} = require('./models/twilio');
+
 /////////////////////////////////////
 const connection = require("./db/connection");
 /////////////////////////////////////
 
 require("./db/connection");
 
-//const Register = require("./models/register");
-//const Student = require("./models/register");
-const { Student, User } = require("./models/register");
+const {  OwnerDetails , vehicalDetails  } = require("./models/register");
+const { User} = require("./models/user");
 
 const port = process.env.PORT || 3000;
 
@@ -29,6 +30,14 @@ const templates_path = path.join(__dirname, "../templates/views");
 app.use(express.static(static_path));
 app.set("view engine", "hbs");
 app.set("views", templates_path);
+
+hbs.registerHelper('formatDate', function(date) {
+  const d = new Date(date);
+  const day = d.getDate().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
+  const year = d.getFullYear();
+  return `${day}-${month}-${year}`;
+});
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,6 +66,7 @@ var sessionChecker = (req, res, next) => {
 app.get("/", (req, res) => {
   res.redirect("/index");
 });
+
 
 app.get("/index", (req, res) => {
   res.render("index");
@@ -106,10 +116,22 @@ app.post('/login', async (req, res) => {
       console.log("Authentication successful!");
   } catch (error) {
       console.error("Error during login:", error);
-      res.render('index', { error: error.message });
+      res.render('index', { error: "please contact Developers !!" });
   }
 });
 
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      res.status(500).send('Could not log out. Please try again.');
+    } else {
+      res.clearCookie('connect.sid');
+      console.log('User logged out successfully');
+      res.redirect('/');
+    }
+  });
+});
 
 app.get("/render", sessionChecker, async (req, res) => {
   console.log("Accessed /render route");
@@ -117,7 +139,6 @@ app.get("/render", sessionChecker, async (req, res) => {
   const name = req.session.name;
   const { Photo } = req.session;
   const base64Photo = Photo ? Buffer.from(Photo.data).toString('base64') : null;
-  //const Photo =  req.session.Photo ? req.session.Photo.toString('base64') :  null;
      console.log(cname);
      console.log(name);
      console.log(Photo);
@@ -150,10 +171,9 @@ app.get("/admin", (req, res) => {
 hbs.registerHelper("formatDate", function (date) {
   return moment(date).format("DD-MM-YYYY");
 });
-
 app.get("/register", async (req, res) => {
   try {
-    const totalno = await Student.aggregate([
+    const totalno = await OwnerDetails.aggregate([
       {
         $group: {
           _id: null,
@@ -165,12 +185,47 @@ app.get("/register", async (req, res) => {
     const totalStudentCount = totalno.length > 0 ? totalno[0].totalCount : 0;
     const plus1 = totalStudentCount + 1;
 
-    res.render("register", { plus1 });
+    // Check if the request is an AJAX request
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.json({ plus1 });
+    } else {
+      res.render("register", { plus1 });
+    }
   } catch (error) {
     console.error("Error retrieving data:", error);
     res.status(500).send("Server Error");
   }
 });
+
+
+
+app.use(express.json());
+app.post('/fetch-user', async (req, res) => {
+  try {
+    console.log('Request Body:', req.body);
+
+    const { userid } = req.body;
+
+    console.log(`Querying with ID: ${userid}`);
+    let ID = userid ;
+    const user = await OwnerDetails.findOne({ ID });
+    console.log('Fetched User:', user);
+
+    if (user) {
+      res.json(user);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
+
+
+
 
 
 app.get("/filter/askMonth", (req, res) => {
@@ -182,6 +237,12 @@ app.get("/view", (req, res) => {
 });
 app.get("/update", (req, res) => {
   res.render("update");
+});
+app.get("/vupdate", (req, res) => {
+  res.render("vupdate");
+});
+app.get("/vehicalreg", (req, res) => {
+  res.render("vehicalreg");
 });
 app.get("/More", (req, res) => {
   res.render("More");
@@ -199,15 +260,39 @@ app.get("/signup", (rqs, res) => {
   res.render("signup");
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-app.get("/logout", (req, res) => {
-  res.redirect("/index");
-});
+
 //////////////////////////////////////////
 hbs.registerHelper("json", function (context) {
   return new hbs.SafeString(JSON.stringify(context));
 });
 
 app.get("/dashboard", async (req, res) => {
+
+  console.log("Dashborad called");
+  const totalno = await OwnerDetails.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalCount: { $sum: 1 },
+      },
+    },
+  ]);
+
+  const totalVHno = await vehicalDetails.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalCount: { $sum: 1 },
+      },
+    },
+  ]);
+  const totalOwnerCount = totalno.length > 0 ? totalno[0].totalCount : 0;
+  const totalVehicalCount = totalVHno.length > 0 ? totalVHno[0].totalCount : 0;
+  console.log(totalOwnerCount,"|",totalVehicalCount);
+  res.render("dashboard", {totalOwnerCount,totalVehicalCount });
+});
+
+/*app.get("/dashboard", async (req, res) => {
   try {
     const totalno = await Student.aggregate([
       {
@@ -312,6 +397,131 @@ app.get("/dashboard", async (req, res) => {
   }
 });
 
+// Define the length helper
+hbs.registerHelper('length', function(array) {
+  return array.length;
+});
+
+hbs.registerHelper('formatDate', function(date) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(date).toLocaleDateString(undefined, options);
+});
+
+hbs.registerHelper('isExpired', function(endDate) {
+  return new Date(endDate) < new Date();
+});
+
+hbs.registerHelper('sortByDate', function(array) {
+  // Sort by EAddmissionDate (expired first)
+  array.sort(function(a, b) {
+    return new Date(a.EAddmissionDate) - new Date(b.EAddmissionDate);
+  });
+  return array;
+});
+*/
+
+app.get('/notifications', async (req, res) => {
+  try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to midnight
+
+    const SevenDaysLater = new Date(today);
+    SevenDaysLater.setDate(today.getDate() + 7);
+
+    console.log("Today's date (midnight):", today);
+    console.log("Seven days later date (midnight):", SevenDaysLater);
+
+    // Helper function to format date as DD-MM-YYYY
+    const formatDate = (date) => {
+      return date.toLocaleDateString('en-GB').split('/').join('-');
+    };
+
+    // Fetch vehicle registration details with expiration dates within the next 7 days
+    const upcomingExpirations = await vehicalDetails.find({
+      $or: [
+        { PUCvalid: { $gte: today, $lte: SevenDaysLater } },
+        { Tax: { $gte: today, $lte: SevenDaysLater } },
+        { Insurance: { $gte: today, $lte: SevenDaysLater } },
+        { Permit: { $gte: today, $lte: SevenDaysLater } },
+        { PTax: { $gte: today, $lte: SevenDaysLater } },
+        { ETax: { $gte: today, $lte: SevenDaysLater } },
+        { Fitness: { $gte: today, $lte: SevenDaysLater } }
+      ]
+    }).exec();
+
+    // Fetch vehicle registration details with expiration dates already expired
+    const expired = await vehicalDetails.find({
+      $or: [
+        { PUCvalid: { $lt: today } },
+        { Tax: { $lt: today } },
+        { Insurance: { $lt: today } },
+        { Permit: { $lt: today } },
+        { PTax: { $lt: today } },
+        { ETax: { $lt: today } },
+        { Fitness: { $lt: today } }
+      ]
+    }).exec();
+
+    // Process upcoming expiration details
+    const upcomingNotifications = upcomingExpirations.map(vehicle => {
+      const expiringFields = [];
+      if (vehicle.PUCvalid >= today && vehicle.PUCvalid <= SevenDaysLater) expiringFields.push(`PUC: ${formatDate(new Date(vehicle.PUCvalid))}`);
+      if (vehicle.Tax >= today && vehicle.Tax <= SevenDaysLater) expiringFields.push(`Tax: ${formatDate(new Date(vehicle.Tax))}`);
+      if (vehicle.Insurance >= today && vehicle.Insurance <= SevenDaysLater) expiringFields.push(`Insurance: ${formatDate(new Date(vehicle.Insurance))}`);
+      if (vehicle.Permit >= today && vehicle.Permit <= SevenDaysLater) expiringFields.push(`Permit: ${formatDate(new Date(vehicle.Permit))}`);
+      if (vehicle.PTax >= today && vehicle.PTax <= SevenDaysLater) expiringFields.push(`PTax: ${formatDate(new Date(vehicle.PTax))}`);
+      if (vehicle.ETax >= today && vehicle.ETax <= SevenDaysLater) expiringFields.push(`ETax: ${formatDate(new Date(vehicle.ETax))}`);
+      if (vehicle.Fitness >= today && vehicle.Fitness <= SevenDaysLater) expiringFields.push(`Fitness: ${formatDate(new Date(vehicle.Fitness))}`);
+
+      return {
+        vehicleNumber: vehicle.VhNo,
+        owner: vehicle.Owner,
+        MobNo : vehicle.MobNo,
+        expiringFields: expiringFields.join(', ')
+      };
+    });
+
+    // Process expired details
+    const expiredNotifications = expired.map(vehicle => {
+      const expiringFields = [];
+      if (vehicle.PUCvalid < today) expiringFields.push(`PUC: ${formatDate(new Date(vehicle.PUCvalid))}`);
+      if (vehicle.Tax < today) expiringFields.push(`Tax: ${formatDate(new Date(vehicle.Tax))}`);
+      if (vehicle.Insurance < today) expiringFields.push(`Insurance: ${formatDate(new Date(vehicle.Insurance))}`);
+      if (vehicle.Permit < today) expiringFields.push(`Permit: ${formatDate(new Date(vehicle.Permit))}`);
+      if (vehicle.PTax < today) expiringFields.push(`PTax: ${formatDate(new Date(vehicle.PTax))}`);
+      if (vehicle.ETax < today) expiringFields.push(`ETax: ${formatDate(new Date(vehicle.ETax))}`);
+      if (vehicle.Fitness < today) expiringFields.push(`Fitness: ${formatDate(new Date(vehicle.Fitness))}`);
+
+      return {
+        vehicleNumber: vehicle.VhNo,
+        owner: vehicle.Owner,
+        MobNo : vehicle.MobNo,
+        expiringFields: expiringFields.join(', ')
+      };
+    });
+
+    // Log upcoming and expired data
+    console.log("Upcoming Expirations:");
+    console.log(upcomingNotifications);
+    console.log("Expired:");
+    console.log(expiredNotifications);
+
+    // Render the notifications view with the processed data
+    res.render('notifications', { 
+      upcomingNotifications,
+      expiredNotifications
+    });
+
+  } catch (error) {
+    console.error('Error fetching vehicle details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -328,26 +538,16 @@ app.post("/register", upload.single('photo'), async (req, res) => {
       ID,
       Name,
       MobNo,
-      SAddmissionDate,
-      EAddmissionDate,
-      Total,
-      Deposite,
-      Pending,
-      gender,
-      Type
+      Address
+      
     } = req.body;
 
     console.log("Extracted fields from request body:", {
       ID,
       Name,
       MobNo,
-      SAddmissionDate,
-      EAddmissionDate,
-      Total,
-      Deposite,
-      Pending,
-      gender,
-      Type
+      Address
+      
     });
 
     // Convert ID to integer
@@ -367,25 +567,156 @@ app.post("/register", upload.single('photo'), async (req, res) => {
     }
 
     // Create a new Student document
-    const studentData = new Student({
+    const OwnerData = new OwnerDetails({
       ID: sid,
-      Name,
-      MobNo,
-      SAddmissionDate,
-      EAddmissionDate,
-      Total,
-      Deposite,
-      Pending,
-      Photo: photoBuffer,
-      gender,
-      Type
+      Name: Name.toUpperCase(),
+      MobNo: MobNo.toUpperCase(),
+      Address: Address.toUpperCase()
   });
 
-    console.log("Created Student document:", studentData);
-    const registeredStudent = await studentData.save();
-    console.log("Student registered successfully:", registeredStudent);
-    //res.render("render");
-    //res.status(201).send("Student registered successfully");
+   
+
+    console.log("Created Student document:", OwnerData);
+    const registeredOwner = await OwnerData.save();
+    console.log("registred Data : ",registeredOwner);
+    
+   
+  } catch (error) {
+    console.error("Error during registration:", error.message);
+    console.error("Stack trace:", error.stack);
+    res.status(400).send(`Bad Request: ${error.message}`);
+  }
+});
+
+app.use(express.json());
+app.post('/fetch-veh', async (req, res) => {
+  const { VhNo } = req.body;
+  console.log(req.body);
+
+  try {
+    const vehicle = await vehicalDetails.findOne({ VhNo });
+
+    if (!vehicle) {
+      return res.status(404).json({ message: 'Vehicle not found' });
+    }
+
+    // Example response with vehicle details
+    res.status(200).json({
+      Owner: vehicle.Owner,
+      MobNo: vehicle.MobNo,
+      PUCvalid: vehicle.PUCvalid,
+      Insurance: vehicle.Insurance,
+      Tax: vehicle.Tax,
+      Permit: vehicle.Permit,
+      PTax: vehicle.PTax,
+      ETax: vehicle.ETax,
+      Fitness: vehicle.Fitness,
+    });
+  } catch (error) {
+    console.error('Error fetching vehicle:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+app.get('/search', async (req, res) => {
+  const { q } = req.query;
+  console.log('Search Query:', q);
+  try {
+    const regex = new RegExp(`^${q}`, 'i'); // Match sequentially from the start
+    const owners = await OwnerDetails.find({
+      Name: { $regex: regex }
+    }).limit(10);
+    console.log(owners.MobNo);
+    console.log(req.session.MobNo);
+    res.json(owners);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+app.post("/registerVehical", upload.single('photo'), async (req, res) => {
+  try {
+    console.log("Received POST request to /register");
+    console.log("Request Body:", req.body);
+
+    const {
+      VhNo,
+      Owner,
+      PUCvalid,
+      Tax,
+      Insurance,
+      Permit,
+      PTax,
+      ETax,
+      Fitness,
+      ChasisNo
+    } = req.body;
+
+    console.log("Extracted fields from request body:", {
+      VhNo,
+      Owner,
+      PUCvalid,
+      Tax,
+      Insurance,
+      Permit,
+      PTax,
+      ETax,
+      Fitness,
+      ChasisNo
+    });
+    const totalno = await vehicalDetails.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalCount: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const totalStudentCount = totalno.length > 0 ? totalno[0].totalCount : 0;
+    const plus1 = totalStudentCount + 1;
+
+    let photoBuffer = null;
+    if (req.file) {
+      photoBuffer = req.file.buffer;
+      console.log("Photo uploaded, size:", photoBuffer.length);
+    } else {
+      console.log("No photo uploaded");
+    }
+
+    console.log("Owner name:", Owner);
+    const ownerDetail = await OwnerDetails.findOne({ Name: Owner });
+    if (!ownerDetail) {
+      return res.status(404).send('Owner not found');
+    }
+
+    console.log(ownerDetail);
+    const Ownerid = ownerDetail.ID;
+    const mob = ownerDetail.MobNo ;
+    console.log(mob);
+   // const mobno = req.session.MobNo;
+    const VehicalData = new vehicalDetails({
+      ID : plus1,
+      OwnerID : Ownerid, 
+      VhNo : VhNo.toUpperCase(),
+      Owner : Owner.toUpperCase(),
+      MobNo : mob,
+      PUCvalid,
+      Tax,
+      Insurance,
+      Permit,
+      PTax,
+      ETax,
+      Fitness,
+      ChasisNo : ChasisNo.toUpperCase()
+    });
+
+    console.log("Created Vehicle document:", VehicalData);
+    const registeredVehical = await VehicalData.save();
+    console.log("Registered Vehicle:", registeredVehical);
+    //res.status(201).send(registeredVehical);
+
   } catch (error) {
     console.error("Error during registration:", error.message);
     console.error("Stack trace:", error.stack);
@@ -394,10 +725,18 @@ app.post("/register", upload.single('photo'), async (req, res) => {
 });
 
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-app.get("/viewAll", async (req, res) => {
+app.get("/renew",(req, res)=>{
+  res.render("renew");
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+app.get("/viewUser", async (req, res) => {
   try {
-    const data = await Student.find(); // Fetch all data from MongoDB
+    const data = await OwnerDetails.find(); // Fetch all data from MongoDB
 
     if (data.length > 0) {
       console.log(data);
@@ -414,6 +753,23 @@ app.get("/viewAll", async (req, res) => {
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
+app.get("/viewVehical", async (req, res) => {
+  try {
+    const data = await vehicalDetails.find(); // Fetch all data from MongoDB
+
+    if (data.length > 0) {
+      console.log(data);
+     
+      res.render("AllUser", { data }); // Render the allData.hbs template with the retrieved data
+    } else {
+      console.log("No data found in the database");
+      res.status(404).send("No data found");
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send("Server Error");
+  }
+});
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 app.post("/view", async (req, res) => {
   const { ID, MobNo } = req.body;
@@ -444,25 +800,26 @@ app.post("/view", async (req, res) => {
   }
 });
 
+app.get("/receipt",(req, res)=>{
+  res.render("receipt");
+});
+
+
 
 app.post("/update", async (req, res) => {
-  const { ID, MobNo } = req.body;
+  const { ReceiptID, } = req.body;
 
   try {
     let data;
-    if (ID) {
-      data = await Student.findOne({ ID });
-    } else if (MobNo) {
-      data = await Student.findOne({ MobNo });
-    }
+    if (ReceiptID) {
+      data = await StudentReceipt.findOne({ ReceiptID });
+    } 
 
     if (data) {
       console.log(data); // Log the data retrieved from MongoDB
       res.render("newD", { data }); // Render the data.hbs template with the retrieved data
     } else {
-      console.log(
-        ID ? `No data found for ID: ${ID}` : `No data found for MobNo: ${MobNo}`
-      );
+      console.log(`No data found for ID: ${ReceiptID}`);
       res.status(404).send("Data not found");
     }
   } catch (error) {
@@ -477,54 +834,49 @@ app.post("/update", async (req, res) => {
 app.post("/submitform", async (req, res) => {
   try {
     const {
-      ID,
+      
+      userid,
       Name,
       MobNo,
-      gender,
-      SAddmissionDate,
-      EAddmissionDate,
-      Type,
-      Total,
-      Deposite,
-      Pending,
-      Photo
+      Address
     } = req.body;
 
-    // Convert date strings to ISO format
-    const convertToISODate = (dateString) => {
-      const [day, month, year] = dateString.split('-');
-      return new Date(`${year}-${month}-${day}`);
-    };
-
-    const sAdmissionDateISO = convertToISODate(SAddmissionDate);
-    const eAdmissionDateISO = convertToISODate(EAddmissionDate);
-
+    const ID = userid;
+    console.log(ID);
     console.log("Requested Data:", req.body);
-
-    const result1 = await Student.findOneAndUpdate(
+    const result1 = await OwnerDetails.findOneAndUpdate(
       { ID },
       {
         $set: {
-          Name,
-          MobNo,
-          gender,
-          SAddmissionDate: sAdmissionDateISO,
-          EAddmissionDate: eAdmissionDateISO,
-          Type,
-          Total,
-          Deposite,
-          Pending,
-          Photo
+          ID,
+          Name: Name.toUpperCase(),
+      MobNo: MobNo.toUpperCase(),
+      Address: Address.toUpperCase()
+        },
+      },
+      { new: true }
+    );
+    const OwnerID  = ID ;
+    console.log( 'Owner ID :',OwnerID);
+    const result2 = await vehicalDetails.findOneAndUpdate(
+      { OwnerID },
+      {
+        $set: {
+
+          Owner: Name.toUpperCase(),
+          MobNo: MobNo.toUpperCase(),
         },
       },
       { new: true }
     );
 
-    if (result1) {
+    console.log(result1);
+    console.log(result2);
+
+
+    if (result1 && result2) {
       console.log("Data in Student");
-      console.log("Student Deposite", result1.Type);
-      console.log("Student Pending", result1.Name);
-      res.redirect("back");
+      //res.redirect("back");
     } else {
       res.status(404).send(`Student with ID ${ID} not found`);
     }
@@ -533,6 +885,69 @@ app.post("/submitform", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+
+
+app.post("/submitveh", async (req, res) => {
+  try {
+    const {
+      VhNo,
+      NewPUCvalid,
+      NewTax,
+      NewInsurance,
+      NewPermit,
+      NewPTax,
+      NewETax,
+      NewFitness,
+    } = req.body;
+
+    console.log("Requested Data:", {
+      VhNo,
+      NewPUCvalid,
+      NewTax,
+      NewInsurance,
+      NewPermit,
+      NewPTax,
+      NewETax,
+      NewFitness
+    });
+
+    // Fetch the existing document
+    const existingDoc = await vehicalDetails.findOne({ VhNo });
+    console.log(existingDoc);
+
+    if (!existingDoc) {
+      return res.status(404).send({ message: "Vehicle not found" });
+    }
+
+    // Create an update object with conditionals
+    const update = {
+      PUCvalid: NewPUCvalid || existingDoc.PUCvalid,
+      Tax: NewTax || existingDoc.Tax,
+      Insurance: NewInsurance || existingDoc.Insurance,
+      Permit: NewPermit || existingDoc.Permit,
+      PTax: NewPTax || existingDoc.PTax,
+      ETax: NewETax || existingDoc.ETax,
+      Fitness: NewFitness || existingDoc.Fitness,
+    };
+
+    const result1 = await vehicalDetails.findOneAndUpdate(
+      { VhNo },
+      { $set: update },
+      { new: true }
+    );
+
+    console.log("Updated Data:", result1);
+
+   // res.status(200).send({ message: "Vehicle details updated successfully", data: result1 });
+  } catch (error) {
+    console.error("Error occurred:", error);
+    res.status(500).send({ message: "Internal server error" });
+  }
+});
+
+
+
 
 
 
@@ -556,51 +971,8 @@ app.get("/searchData", async (req, res) => {
 });
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/deleteForm", async (req, res) => {
-  try {
-    const {
-      ID,
-      Name,
-      MobNo,
-      SAddmissionDate,
-      EAddmissionDate,
-      Total,
-      Deposite,
-      Pending,
-      gender,
-      Type
-    } = req.body;
 
-    console.log("Requested Data:", req.body);
 
-    const result = await Student.deleteOne(
-      { ID },
-      {
-        $set: {
-      Name,
-      MobNo,
-      SAddmissionDate,
-      EAddmissionDate,
-      Total,
-      Deposite,
-      Pending,
-      gender,
-      Type
-        },
-      },
-      { new: true } // Return the modified document
-    );
-    
-    if (result) {
-      res.redirect("back");
-    } else {
-      res.status(404).send(`Student with ID ${ID} not found`);
-    }
-  } catch (error) {
-    console.error("Error handling form submission:", error);
-    res.status(500).send("Server Error");
-  }
-});
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 app.get("/askMonth", (req, res) => {
@@ -719,3 +1091,5 @@ app.post("/signup", upload.single('photo'), async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+
